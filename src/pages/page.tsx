@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './page.module.css';
-
+import { Routes } from 'pages/routes.config';
 
 export function HomePage() {
   return (
@@ -10,7 +10,7 @@ export function HomePage() {
         A simple tool to upload images to specific directories in your GitHub repositories.
         Each upload creates a new commit with your image.
       </p>
-      <Link to="/upload" className={styles.cta}>
+      <Link to={Routes.uploadImage} className={styles.cta}>
         Start Uploading
       </Link>
     </div>

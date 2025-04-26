@@ -1,23 +1,23 @@
-import React from 'react';
+import { lazy } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
 
-import { HomePage } from './page';
-import { UploadPage } from './upload/page';
 import { Layout } from 'root/Layout';
 
-export const routes = {
-  home: '/',
-  upload: '/upload',
-} as const;
+const HomePage = lazy(() => import('./page').then((module) => ({ default: module.HomePage })));
+const UploadPage = lazy(() => import('./upload/page').then((module) => ({ default: module.UploadPage })));
 
+export enum Routes {
+  home = '/',
+  uploadImage = '/upload/image',
+};
 
 export const nestedRoutes: RouteObject[] = [
   {
-    path: routes.home,
+    path: Routes.home,
     element: <HomePage />,
   },
   {
-    path: routes.upload,
+    path: Routes.uploadImage,
     element: <UploadPage />,
   },
 ];
