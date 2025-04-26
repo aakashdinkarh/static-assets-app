@@ -1,0 +1,64 @@
+{
+  "name": "static-assets-app",
+  "version": "0.1.0",
+  "description": "A browser-based JavaScript/TypeScript playground with real-time code execution, TypeScript support, and Chrome DevTools-like console for experimenting with code. Features include live transpilation, detailed error handling, rich data type formatting, and offline capabilities.",
+  "private": true,
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "^7.5.2"
+  },
+  "devDependencies": {
+    "@craco/craco": "7.1.0",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
+    "eslint": "8.0.0",
+    "husky": "8.0.0",
+    "lint-staged": "15.0.0",
+    "typescript": "4.9.5"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "npm run type-check && craco build",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch",
+    "lint-fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "prepare": "husky install",
+    "pre-push": "npm run build"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ],
+    "rules": {
+      "no-eval": "off",
+      "no-new-func": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          "prefer": "type-imports"
+        }
+      ]
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
