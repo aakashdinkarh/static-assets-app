@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import styles from './RepoBrowser.module.css';
 import { GITHUB_CONFIG, CACHE_EXPIRATION, cache } from 'constants/github';
 import type { RepoItem } from 'types/github';
-import { FilePreview } from 'components/FilePreview/FilePreview';
-import { Breadcrumb } from 'components/Breadcrumb/Breadcrumb';
+import { FilePreview } from 'components/FilePreview';
+import { Breadcrumb } from 'components/Breadcrumb';
 
 export function RepoBrowser() {
   const [currentPath, setCurrentPath] = useState('');
