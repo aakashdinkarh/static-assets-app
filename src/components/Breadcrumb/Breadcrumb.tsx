@@ -1,11 +1,12 @@
 import styles from './breadcrumb.module.css';
 
 interface BreadcrumbProps {
+  rootPath: string;
   currentPath: string;
   onNavigate: (path: string) => void;
 }
 
-export function Breadcrumb({ currentPath, onNavigate }: BreadcrumbProps) {
+export function Breadcrumb({ rootPath, currentPath, onNavigate }: BreadcrumbProps) {
   const parts = currentPath.split('/').filter(Boolean);
 
   if (parts.length === 0) {
@@ -16,7 +17,7 @@ export function Breadcrumb({ currentPath, onNavigate }: BreadcrumbProps) {
     <div className={styles.breadcrumb}>
       <span 
         className={styles.breadcrumbItem} 
-        onClick={() => onNavigate('')}
+        onClick={() => onNavigate(rootPath)}
         role="button"
         tabIndex={0}
       >
