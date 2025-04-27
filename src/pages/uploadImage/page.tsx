@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ImageUploader } from 'components/ImageUploader';
+import { ImageUploader } from 'components/ImageUploader/ImageUploader';
 import type { GithubUploadResponse } from 'types/github';
 import styles from './page.module.css';
 
