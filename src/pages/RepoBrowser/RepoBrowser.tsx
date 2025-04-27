@@ -1,76 +1,25 @@
 import { useState, useEffect } from 'react';
-import styles from './RepoBrowser.module.css';
-import { GITHUB_CONFIG, CACHE_EXPIRATION, cache } from 'constants/github';
-import type { RepoItem } from 'types/github';
 import { FilePreview } from 'components/FilePreview';
 import { Breadcrumb } from 'components/Breadcrumb';
+import { useRepoBrowser } from 'hooks/useRepoBrowser';
+import type { RepoItem } from 'types/github';
+import styles from './RepoBrowser.module.css';
+import { DangerButton } from 'common/Button';
+
+const rootPath = '/';
 
 export function RepoBrowser() {
-  const [currentPath, setCurrentPath] = useState('');
-  const [items, setItems] = useState<RepoItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [currentPath, setCurrentPath] = useState(rootPath);
   const [previewItem, setPreviewItem] = useState<RepoItem | null>(null);
 
-  const getCachedData = (path: string): RepoItem[] | null => {
-    const cacheEntry = cache[path];
-    if (!cacheEntry) return null;
-
-    const now = Date.now();
-    if (now - cacheEntry.timestamp > CACHE_EXPIRATION) {
-      // Cache expired, remove it
-      delete cache[path];
-      return null;
-    }
-
-    return cacheEntry.data;
-  };
-
-  const setCachedData = (path: string, data: RepoItem[]) => {
-    cache[path] = {
-      data,
-      timestamp: Date.now()
-    };
-  };
-
-  const fetchDirectoryContents = async (path: string = '') => {
-    // Check cache first
-    const cachedData = getCachedData(path);
-    if (cachedData) {
-      setItems(cachedData);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        `${GITHUB_CONFIG.BASE_URL}/repos/${GITHUB_CONFIG.REPO_OWNER}/${GITHUB_CONFIG.REPO_NAME}/contents/${path}`,
-        {
-          headers: {
-            'Authorization': `token ${GITHUB_CONFIG.TOKEN}`,
-            'Accept': GITHUB_CONFIG.API_VERSION
-          }
-        }
-      );
-      
-      if (!response.ok) throw new Error('Failed to fetch repository contents');
-      const data = await response.json();
-      const items = Array.isArray(data) ? data : [data];
-      
-      // Cache the results
-      setCachedData(path, items);
-      setItems(items);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { items, loading, error, fetchDirectoryContents, handleDelete, handleRefresh } = useRepoBrowser({
+    rootPath,
+    currentPath,
+  });
 
   useEffect(() => {
     fetchDirectoryContents(currentPath);
-  }, [currentPath]);
+  }, [currentPath, fetchDirectoryContents]);
 
   const handleNavigate = (item: RepoItem) => {
     if (item.type === 'dir') {
@@ -81,45 +30,9 @@ export function RepoBrowser() {
     }
   };
 
-  const handleDelete = async (item: RepoItem) => {
-    if (!window.confirm(`Are you sure you want to delete ${item.name}?`)) return;
-    
-    try {
-      const response = await fetch(
-        `${GITHUB_CONFIG.BASE_URL}/repos/${GITHUB_CONFIG.REPO_OWNER}/${GITHUB_CONFIG.REPO_NAME}/contents/${item.path}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${GITHUB_CONFIG.TOKEN}`,
-            'Accept': GITHUB_CONFIG.API_VERSION,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Delete ${item.name}`,
-            sha: item.sha
-          })
-        }
-      );
-      
-      if (!response.ok) throw new Error('Failed to delete item');
-      
-      // Invalidate cache for current path after successful delete
-      delete cache[currentPath];
-      fetchDirectoryContents(currentPath);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete item');
-    }
-  };
-
   const handleBack = () => {
     const parentPath = currentPath.split('/').slice(0, -1).join('/');
     setCurrentPath(parentPath);
-  };
-
-  const handleRefresh = () => {
-    // Invalidate cache for current path and fetch fresh data
-    delete cache[currentPath];
-    fetchDirectoryContents(currentPath);
   };
 
   if (loading) return <div className={styles.loading}>Loading...</div>;
@@ -130,7 +43,7 @@ export function RepoBrowser() {
       <div className={styles.header}>
         <h1>Repository Browser</h1>
         <div className={styles.headerActions}>
-          {currentPath && (
+          {currentPath !== rootPath && (
             <button onClick={handleBack} className={styles.backButton}>
               Back
             </button>
@@ -140,6 +53,7 @@ export function RepoBrowser() {
           </button>
         </div>
         <Breadcrumb 
+          rootPath={rootPath}
           currentPath={currentPath} 
           onNavigate={setCurrentPath}
         />
@@ -163,12 +77,7 @@ export function RepoBrowser() {
               )}
             </div>
             <div className={styles.actions}>
-              <button 
-                onClick={() => handleDelete(item)}
-                className={styles.deleteButton}
-              >
-                Delete
-              </button>
+              <DangerButton onClick={() => handleDelete(item)}>Delete</DangerButton>
             </div>
           </div>
         ))}
