@@ -1,0 +1,12 @@
+.dangerButton {
+  padding: 0.25rem 0.75rem;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dangerButton:hover {
+  background-color: #cc0000;
+}
