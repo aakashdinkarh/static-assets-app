@@ -27,6 +27,7 @@
 .nav {
   display: flex;
   gap: 1.5rem;
+  margin-left: auto;
 }
 
 .navLink {
@@ -44,4 +45,31 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.verticalDivider {
+  background-color: #e2e8f0;
+  align-self: stretch;
+  width: 1px;
+  margin-left: 0.75rem;
+}
+
+.githubLoginButton {
+  display: inline-flex;
+  background-color: #333;
+  border: 1px solid #333;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  margin-left: 0.75rem;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.userAvatar {
+  display: inline-flex;
+  border: 1px solid #333;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  margin-left: 0.75rem;
+  cursor: pointer;
 }

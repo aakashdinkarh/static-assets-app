@@ -5,6 +5,7 @@ import { useRepoBrowser } from 'hooks/useRepoBrowser';
 import type { RepoItem } from 'types/github';
 import styles from './RepoBrowser.module.css';
 import { DangerButton } from 'common/Button';
+import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 
 const rootPath = '/';
 
@@ -12,14 +13,17 @@ export function RepoBrowser() {
   const [currentPath, setCurrentPath] = useState(rootPath);
   const [previewItem, setPreviewItem] = useState<RepoItem | null>(null);
 
-  const { items, loading, error, fetchDirectoryContents, handleDelete, handleRefresh } = useRepoBrowser({
-    rootPath,
-    currentPath,
-  });
+  const isAuthenticated = !!useGithubUserInfoStore().userInfo;
+
+  const { items, loading, error, setItems, fetchDirectoryContents, handleDelete, handleRefresh } =
+    useRepoBrowser({
+      rootPath,
+      currentPath,
+    });
 
   useEffect(() => {
     fetchDirectoryContents(currentPath);
-  }, [currentPath, fetchDirectoryContents]);
+  }, [currentPath, fetchDirectoryContents, isAuthenticated]);
 
   const handleNavigate = (item: RepoItem) => {
     if (item.type === 'dir') {
@@ -52,17 +56,13 @@ export function RepoBrowser() {
             Refresh
           </button>
         </div>
-        <Breadcrumb 
-          rootPath={rootPath}
-          currentPath={currentPath} 
-          onNavigate={setCurrentPath}
-        />
+        <Breadcrumb rootPath={rootPath} currentPath={currentPath} onNavigate={setCurrentPath} />
       </div>
 
       <div className={styles.itemList}>
-        {items.map((item) => (
+        {items.map(item => (
           <div key={item.path} className={styles.item}>
-            <div 
+            <div
               className={styles.itemName}
               onClick={() => handleNavigate(item)}
               role="button"
@@ -71,9 +71,7 @@ export function RepoBrowser() {
               {item.type === 'dir' ? '📁 ' : '📄 '}
               {item.name}
               {item.type === 'file' && item.size && (
-                <span className={styles.fileSize}>
-                  ({(item.size / 1024).toFixed(1)} KB)
-                </span>
+                <span className={styles.fileSize}>({(item.size / 1024).toFixed(1)} KB)</span>
               )}
             </div>
             <div className={styles.actions}>
@@ -84,11 +82,8 @@ export function RepoBrowser() {
       </div>
 
       {previewItem && (
-        <FilePreview 
-          item={previewItem} 
-          onClose={() => setPreviewItem(null)} 
-        />
+        <FilePreview item={previewItem} onClose={() => setPreviewItem(null)} setItems={setItems} />
       )}
     </div>
   );
-} 
+}
