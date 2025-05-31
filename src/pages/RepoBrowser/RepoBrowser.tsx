@@ -1,29 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FilePreview } from 'components/FilePreview';
 import { Breadcrumb } from 'components/Breadcrumb';
 import { useRepoBrowser } from 'hooks/useRepoBrowser';
 import type { RepoItem } from 'types/github';
 import styles from './RepoBrowser.module.css';
 import { DangerButton } from 'common/Button';
-import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
+import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 
 const rootPath = '/';
 
 export function RepoBrowser() {
-  const [currentPath, setCurrentPath] = useState(rootPath);
   const [previewItem, setPreviewItem] = useState<RepoItem | null>(null);
 
-  const isAuthenticated = !!useGithubUserInfoStore().userInfo;
-
-  const { items, loading, error, setItems, fetchDirectoryContents, handleDelete, handleRefresh } =
-    useRepoBrowser({
-      rootPath,
-      currentPath,
-    });
-
-  useEffect(() => {
-    fetchDirectoryContents(currentPath);
-  }, [currentPath, fetchDirectoryContents, isAuthenticated]);
+  const { handleDelete, handleRefresh } = useRepoBrowser();
+  const { listItems, isLoading, error, currentPath, setCurrentPath } = useRepoBrowserStore();
 
   const handleNavigate = (item: RepoItem) => {
     if (item.type === 'dir') {
@@ -39,7 +29,7 @@ export function RepoBrowser() {
     setCurrentPath(parentPath);
   };
 
-  if (loading) return <div className={styles.loading}>Loading...</div>;
+  if (isLoading) return <div className={styles.loading}>Loading...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
 
   return (
@@ -60,7 +50,7 @@ export function RepoBrowser() {
       </div>
 
       <div className={styles.itemList}>
-        {items.map(item => (
+        {listItems.map(item => (
           <div key={item.path} className={styles.item}>
             <div
               className={styles.itemName}
@@ -81,9 +71,7 @@ export function RepoBrowser() {
         ))}
       </div>
 
-      {previewItem && (
-        <FilePreview item={previewItem} onClose={() => setPreviewItem(null)} setItems={setItems} />
-      )}
+      {previewItem && <FilePreview item={previewItem} onClose={() => setPreviewItem(null)} />}
     </div>
   );
 }

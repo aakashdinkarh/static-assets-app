@@ -45,3 +45,144 @@
 .downloadLink:hover {
   text-decoration: underline;
 }
+
+.jsonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.jsonHeaderAndErrorContainer {
+  display: flex;
+  align-items: flex-start;
+
+  .error {
+    padding: 0.5rem;
+  }
+}
+
+.jsonHeader {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.editActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.saveButton,
+.cancelButton {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border: 1px solid transparent;
+}
+
+.editButton {
+  background-color: #f0f0f0;
+  border-color: #ddd;
+}
+
+.editButton:hover {
+  background-color: #e0e0e0;
+}
+
+.saveButton {
+  background-color: #0066cc;
+  color: white;
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: #0052a3;
+}
+
+.cancelButton {
+  background-color: #f0f0f0;
+  border-color: #ddd;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.jsonEditor {
+  flex: 1;
+  min-height: 300px;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f5f5f5;
+  resize: none;
+  white-space: pre-wrap;
+  tab-size: 2;
+}
+
+.jsonEditor:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+.commitDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.commitDialogContent {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.commitDialogContent h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.commitMessageInput {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.commitMessageInput:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+.commitActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}

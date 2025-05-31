@@ -9,11 +9,9 @@ interface FilePreviewProps {
   onClose: () => void;
 }
 
-const isImageFile = (filename: string): boolean => 
-  /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(filename);
+const isImageFile = (filename: string): boolean => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(filename);
 
-const isJsonFile = (filename: string): boolean => 
-  filename.endsWith('.json');
+const isJsonFile = (filename: string): boolean => filename.endsWith('.json');
 
 export function FilePreview({ item, onClose }: FilePreviewProps) {
   if (!item.download_url) {
@@ -24,17 +22,12 @@ export function FilePreview({ item, onClose }: FilePreviewProps) {
     if (isImageFile(item.name)) {
       return <ImagePreview url={item.download_url!} alt={item.name} />;
     }
-    
+
     if (isJsonFile(item.name)) {
-      return <JsonPreview url={item.download_url!} />;
+      return <JsonPreview url={item.download_url!} path={item.path} sha={item.sha} />;
     }
-    
-    return (
-      <UnsupportedPreview 
-        url={item.download_url!} 
-        filename={item.name} 
-      />
-    );
+
+    return <UnsupportedPreview url={item.download_url!} filename={item.name} />;
   };
 
   return (
@@ -42,12 +35,12 @@ export function FilePreview({ item, onClose }: FilePreviewProps) {
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         <div className={styles.header}>
           <h3>{item.name}</h3>
-          <button onClick={onClose} className={styles.closeButton}>×</button>
+          <button onClick={onClose} className={styles.closeButton}>
+            ×
+          </button>
         </div>
-        <div className={styles.content}>
-          {renderPreview()}
-        </div>
+        <div className={styles.content}>{renderPreview()}</div>
       </div>
     </div>
   );
-} 
+}

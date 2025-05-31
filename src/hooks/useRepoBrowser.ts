@@ -1,43 +1,38 @@
-import { useCallback, useState } from 'react';
-import { deleteGithubContent, getGithubContent } from 'api/getGithubContent';
+import { useCallback, useEffect } from 'react';
+import { deleteGithubContent, getGithubContent } from 'api/githubContent';
 import { deleteCachedData, setCachedData } from 'utils/cachingUtils';
 import { getCachedData } from 'utils/cachingUtils';
 import type { RepoItem } from 'types/github';
+import { useRepoBrowserStore } from 'store/RepoBrowserStore';
+import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 
-export const useRepoBrowser = ({
-  rootPath,
-  currentPath,
-}: {
-  rootPath: string;
-  currentPath: string;
-}) => {
-  const [items, setItems] = useState<RepoItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const useRepoBrowser = () => {
+  const { currentPath, setListItems, setIsLoading, setError } = useRepoBrowserStore();
+  const isAuthenticated = !!useGithubUserInfoStore().userInfo;
 
   const fetchDirectoryContents = useCallback(
-    async (path: string = rootPath) => {
+    async (path: string) => {
       // Check cache first
       const cachedData = getCachedData(path);
       if (cachedData) {
-        setItems(cachedData);
+        setListItems(cachedData);
         return;
       }
 
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
       try {
         const items = await getGithubContent(path);
         // Cache the results
         setCachedData(path, items);
-        setItems(items);
+        setListItems(items);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
-    [rootPath]
+    [setError, setIsLoading, setListItems]
   );
 
   const handleDelete = useCallback(
@@ -53,7 +48,7 @@ export const useRepoBrowser = ({
         setError(err instanceof Error ? err.message : 'Failed to delete item');
       }
     },
-    [currentPath, fetchDirectoryContents]
+    [currentPath, fetchDirectoryContents, setError]
   );
 
   const handleRefresh = useCallback(() => {
@@ -62,10 +57,11 @@ export const useRepoBrowser = ({
     fetchDirectoryContents(currentPath);
   }, [currentPath, fetchDirectoryContents]);
 
+  useEffect(() => {
+    fetchDirectoryContents(currentPath);
+  }, [currentPath, fetchDirectoryContents, isAuthenticated]);
+
   return {
-    items,
-    loading,
-    error,
     fetchDirectoryContents,
     handleDelete,
     handleRefresh,

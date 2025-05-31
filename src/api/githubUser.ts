@@ -37,8 +37,7 @@ export const getUserGithubInfo = async (code: string): Promise<UserInfo | null> 
     // @ts-expect-error - authToken will be removed from the response
     delete data.data.authToken;
 
-    // 30 minutes in seconds
-    setCookie(AUTHORIZATION_COOKIE_NAME, authToken, 60 * 30);
+    setCookie(AUTHORIZATION_COOKIE_NAME, authToken, 60 * 30); // 30 minutes in seconds
 
     return data.data;
   } catch (error) {
