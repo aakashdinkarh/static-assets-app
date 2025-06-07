@@ -21,3 +21,31 @@ export const getGithubContent = async (path: string) => {
   return items;
 };
 
+export const uploadGithubContent = async ({
+  file,
+  directory,
+  filename,
+  commitMessage,
+}: {
+  file: File;
+  directory: string;
+  filename: string;
+  commitMessage: string;
+}) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('directory', directory);
+  formData.append('filename', filename);
+  formData.append('commit_message', commitMessage);
+
+  const response = await fetch(UPLOAD_GITHUB_CONTENT.url, {
+    method: UPLOAD_GITHUB_CONTENT.method,
+    headers: getCommonHeaders(),
+    body: formData,
+  });
+
+  if (!response.ok) throw new Error('Failed to upload content');
+  const responseData = await response.json();
+  return responseData.data;
+};
+
