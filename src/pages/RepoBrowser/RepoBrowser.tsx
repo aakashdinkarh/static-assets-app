@@ -8,6 +8,7 @@ import { DangerButton } from 'common/Button';
 import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { useModalStore, ModalScreen } from 'store/ModalStore';
+import { getParentPathForCurrentPath } from 'utils/getParentPathForCurrentPath.util';
 
 const rootPath = '/';
 
@@ -34,7 +35,7 @@ export function RepoBrowser() {
   };
 
   const handleBack = () => {
-    const parentPath = currentPath.split('/').slice(0, -1).join('/');
+    const parentPath = getParentPathForCurrentPath(currentPath);
     setCurrentPath(parentPath);
   };
 

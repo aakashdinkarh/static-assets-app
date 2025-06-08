@@ -1,6 +1,6 @@
 import { ModalScreen, useModalStore } from 'store/ModalStore';
 import { Modal } from 'common/Modal';
-import { ButtonType } from 'common/Button';
+import { ButtonType } from 'common/Button/button.types';
 
 export const ConfirmationModal = ({
   onConfirm,
