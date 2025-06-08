@@ -100,10 +100,16 @@ const DeleteItemConfirmationModal = ({ deleteItemPath }: { deleteItemPath: strin
 
   if (!itemToDelete) return null;
 
+  const message = (
+    <span>
+      Are you sure you want to delete <strong>{deleteItemPath}</strong>?
+    </span>
+  );
+
   return (
     <ConfirmationModal
       title="Delete Item"
-      message="Are you sure you want to delete this item?"
+      message={message}
       onConfirm={() => handleDelete(itemToDelete)}
     />
   );

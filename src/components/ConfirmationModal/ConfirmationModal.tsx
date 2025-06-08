@@ -9,7 +9,7 @@ export const ConfirmationModal = ({
 }: {
   onConfirm: () => void;
   title: string;
-  message: string;
+  message: React.ReactNode;
 }) => {
   const { modalScreen } = useModalStore();
   const isOpen = modalScreen === ModalScreen.ConfirmationModal;
