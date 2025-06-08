@@ -106,7 +106,7 @@ const DeleteItemConfirmationModal = ({ deleteItemPath }: { deleteItemPath: strin
   if (!itemToDelete) return null;
 
   const message = (
-    <span>
+    <span style={{ wordBreak: 'break-all' }}>
       Are you sure you want to delete <strong>{deleteItemPath}</strong>?
     </span>
   );
