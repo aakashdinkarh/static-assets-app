@@ -3,7 +3,7 @@ import styles from './layout.module.css';
 import './global.css';
 import { Routes } from 'constants/route.constant';
 import { LoginWithGithubModal } from 'components/LoginWithGithubModal';
-import { useLoginWithGithubModalStore } from 'store/LoginWithGithubModalStore';
+import { ModalScreen, useModalStore } from 'store/ModalStore';
 import { useGithubAuthListener } from 'hooks/useGithubAuthListener';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 import { LogoutPopup } from 'components/LogoutPopup';
@@ -14,7 +14,7 @@ import { useLogoutPopupStore } from 'store/LogoutPopupStore';
 // };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { openModal: openLoginModal } = useLoginWithGithubModalStore();
+  const { openModal } = useModalStore();
   const { openPopup: openLogoutPopup } = useLogoutPopupStore();
 
   useGithubAuthListener();
@@ -44,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           {/* Login with GitHub */}
           {!userInfo && (
             <button
-              onClick={openLoginModal}
+              onClick={() => openModal(ModalScreen.LoginWithGithub)}
               className={styles.githubLoginButton}
               aria-label="Login with GitHub"
               title="Login with GitHub"

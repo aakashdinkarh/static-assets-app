@@ -37,8 +37,6 @@ export const useRepoBrowser = () => {
 
   const handleDelete = useCallback(
     async (item: RepoItem) => {
-      if (!window.confirm(`Are you sure you want to delete ${item.name}?`)) return;
-
       try {
         await deleteGithubContent(item.path, `Delete ${item.name} from ${currentPath}`);
         // Invalidate cache for current path after successful delete

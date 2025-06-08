@@ -1,0 +1,41 @@
+.dangerButton {
+  padding: 0.25rem 0.75rem;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dangerButton:hover {
+  background-color: #cc0000;
+}
+
+.primaryButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #24292e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.primaryButton:hover {
+  background-color: #2c3238;
+}
+
+.secondaryButton {
+  background-color: white;
+  color: #24292e;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}
+
+.secondaryButton:hover {
+  background-color: #f6f8fa;
+}

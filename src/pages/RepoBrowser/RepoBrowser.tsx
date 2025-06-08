@@ -6,14 +6,18 @@ import type { RepoItem } from 'types/github';
 import styles from './RepoBrowser.module.css';
 import { DangerButton } from 'common/Button';
 import { useRepoBrowserStore } from 'store/RepoBrowserStore';
+import { ConfirmationModal } from 'components/ConfirmationModal';
+import { useModalStore, ModalScreen } from 'store/ModalStore';
 
 const rootPath = '/';
 
 export function RepoBrowser() {
   const [previewItemPath, setPreviewItemPath] = useState<string | null>(null);
+  const [deleteItemPath, setDeleteItemPath] = useState<string | null>(null);
 
-  const { handleDelete, handleRefresh } = useRepoBrowser();
+  const { handleRefresh } = useRepoBrowser();
   const { listItems, isLoading, error, currentPath, setCurrentPath } = useRepoBrowserStore();
+  const { openModal } = useModalStore();
 
   const previewItem = useMemo(
     () => listItems.find(item => item.path === previewItemPath),
@@ -32,6 +36,11 @@ export function RepoBrowser() {
   const handleBack = () => {
     const parentPath = currentPath.split('/').slice(0, -1).join('/');
     setCurrentPath(parentPath);
+  };
+
+  const showConfirmDeleteModal = (itemPath: string) => {
+    setDeleteItemPath(itemPath);
+    openModal(ModalScreen.ConfirmationModal);
   };
 
   if (isLoading) return <div className={styles.loading}>Loading...</div>;
@@ -70,13 +79,32 @@ export function RepoBrowser() {
               )}
             </div>
             <div className={styles.actions}>
-              <DangerButton onClick={() => handleDelete(item)}>Delete</DangerButton>
+              <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>Delete</DangerButton>
             </div>
           </div>
         ))}
       </div>
 
       {previewItem && <FilePreview item={previewItem} onClose={() => setPreviewItemPath(null)} />}
+
+      {deleteItemPath && <DeleteItemConfirmationModal deleteItemPath={deleteItemPath} />}
     </div>
   );
 }
+
+const DeleteItemConfirmationModal = ({ deleteItemPath }: { deleteItemPath: string }) => {
+  const { listItems } = useRepoBrowserStore();
+  const { handleDelete } = useRepoBrowser();
+
+  const itemToDelete = listItems.find(item => item.path === deleteItemPath);
+
+  if (!itemToDelete) return null;
+
+  return (
+    <ConfirmationModal
+      title="Delete Item"
+      message="Are you sure you want to delete this item?"
+      onConfirm={() => handleDelete(itemToDelete)}
+    />
+  );
+};
