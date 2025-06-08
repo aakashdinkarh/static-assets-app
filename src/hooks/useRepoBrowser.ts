@@ -54,7 +54,7 @@ export const useRepoBrowser = () => {
   const handleRefresh = useCallback(() => {
     // Invalidate cache for current path and fetch fresh data
     deleteCachedData(currentPath);
-    fetchDirectoryContents(currentPath);
+    fetchDirectoryContents(`${currentPath}&refresh=true`);
   }, [currentPath, fetchDirectoryContents]);
 
   useEffect(() => {

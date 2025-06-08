@@ -49,3 +49,31 @@ export const uploadGithubContent = async ({
   return responseData.data;
 };
 
+export const updateGithubContent = async ({
+  path,
+  content,
+  commitMessage,
+  sha,
+}: {
+  path: string;
+  content: string;
+  commitMessage: string;
+  sha: string;
+}) => {
+  const response = await fetch(UPDATE_GITHUB_CONTENT.url, {
+    method: UPDATE_GITHUB_CONTENT.method,
+    headers: getCommonHeaders(),
+    body: JSON.stringify({
+      path,
+      content,
+      commitMessage,
+      sha,
+    }),
+  });
+
+  if (!response.ok) throw new Error('Failed to update content');
+
+  const responseData = await response.json();
+  return responseData.data;
+};
+

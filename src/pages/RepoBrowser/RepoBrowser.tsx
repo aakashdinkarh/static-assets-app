@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FilePreview } from 'components/FilePreview';
 import { Breadcrumb } from 'components/Breadcrumb';
 import { useRepoBrowser } from 'hooks/useRepoBrowser';
@@ -10,17 +10,22 @@ import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 const rootPath = '/';
 
 export function RepoBrowser() {
-  const [previewItem, setPreviewItem] = useState<RepoItem | null>(null);
+  const [previewItemPath, setPreviewItemPath] = useState<string | null>(null);
 
   const { handleDelete, handleRefresh } = useRepoBrowser();
   const { listItems, isLoading, error, currentPath, setCurrentPath } = useRepoBrowserStore();
+
+  const previewItem = useMemo(
+    () => listItems.find(item => item.path === previewItemPath),
+    [listItems, previewItemPath]
+  );
 
   const handleNavigate = (item: RepoItem) => {
     if (item.type === 'dir') {
       setCurrentPath(item.path);
     } else {
       // For files, show preview instead of opening in new tab
-      setPreviewItem(item);
+      setPreviewItemPath(item.path);
     }
   };
 
@@ -71,7 +76,7 @@ export function RepoBrowser() {
         ))}
       </div>
 
-      {previewItem && <FilePreview item={previewItem} onClose={() => setPreviewItem(null)} />}
+      {previewItem && <FilePreview item={previewItem} onClose={() => setPreviewItemPath(null)} />}
     </div>
   );
 }
