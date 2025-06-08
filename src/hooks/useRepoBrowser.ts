@@ -11,10 +11,10 @@ export const useRepoBrowser = () => {
   const isAuthenticated = !!useGithubUserInfoStore().userInfo;
 
   const fetchDirectoryContents = useCallback(
-    async (path: string) => {
+    async (path: string, refresh = false) => {
       // Check cache first
       const cachedData = getCachedData(path);
-      if (cachedData) {
+      if (cachedData && !refresh) {
         setListItems(cachedData);
         return;
       }
@@ -22,7 +22,8 @@ export const useRepoBrowser = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const items = await getGithubContent(path);
+        const url = refresh ? `${path}&refresh=true` : path;
+        const items = await getGithubContent(url);
         // Cache the results
         setCachedData(path, items);
         setListItems(items);
@@ -52,7 +53,7 @@ export const useRepoBrowser = () => {
   const handleRefresh = useCallback(() => {
     // Invalidate cache for current path and fetch fresh data
     deleteCachedData(currentPath);
-    fetchDirectoryContents(`${currentPath}&refresh=true`);
+    fetchDirectoryContents(currentPath, true);
   }, [currentPath, fetchDirectoryContents]);
 
   useEffect(() => {
