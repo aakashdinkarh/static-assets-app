@@ -77,3 +77,26 @@ export const updateGithubContent = async ({
   return responseData.data;
 };
 
+export const deleteGithubContent = async ({
+  path,
+  message,
+  sha,
+}: {
+  path: string;
+  message: string;
+  sha: string;
+}) => {
+  const commitMessage = message || `Delete ${path}`;
+
+  const response = await fetch(DELETE_GITHUB_CONTENT.url, {
+    method: DELETE_GITHUB_CONTENT.method,
+    headers: getCommonHeaders(),
+    body: JSON.stringify({
+      path,
+      commitMessage,
+      sha,
+    }),
+  });
+
+  if (!response.ok) throw new Error('Failed to delete item');
+};

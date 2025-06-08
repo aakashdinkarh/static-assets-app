@@ -42,6 +42,11 @@ export const useRepoBrowser = () => {
     async (item: RepoItem) => {
       try {
         setModalActionsDisabled(true);
+        await deleteGithubContent({
+          path: item.path,
+          message: `Delete ${item.name} from ${currentPath}`,
+          sha: item.sha,
+        });
         // Invalidate cache for current path after successful delete
         deleteCachedData(currentPath);
         fetchDirectoryContents(currentPath);
