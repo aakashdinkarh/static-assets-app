@@ -79,9 +79,13 @@ export function RepoBrowser() {
                 <span className={styles.fileSize}>({(item.size / 1024).toFixed(1)} KB)</span>
               )}
             </div>
-            <div className={styles.actions}>
-              <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>Delete</DangerButton>
-            </div>
+            {item.type === 'file' && (
+              <div className={styles.actions}>
+                <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>
+                  Delete
+                </DangerButton>
+              </div>
+            )}
           </div>
         ))}
       </div>
