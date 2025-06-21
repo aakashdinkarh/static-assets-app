@@ -5,12 +5,13 @@ import {
   UPLOAD_GITHUB_CONTENT,
 } from 'constants/api.constant';
 import { getCommonHeaders } from 'utils/commonHeaders.util';
+import { checkError } from 'utils/apiHandlers.util';
 
 export const getGithubContent = async (path: string) => {
   const url = `${GET_GITHUB_CONTENT.url}?path=${path}`;
   const response = await fetch(url);
 
-  if (!response.ok) throw new Error('Failed to fetch repository contents');
+  await checkError(response);
   const responseData = await response.json();
 
   const data = responseData.data.data;
@@ -42,7 +43,7 @@ export const uploadGithubContent = async ({
     body: formData,
   });
 
-  if (!response.ok) throw new Error('Failed to upload content');
+  await checkError(response);
   const responseData = await response.json();
   return responseData.data;
 };
@@ -69,8 +70,7 @@ export const updateGithubContent = async ({
     }),
   });
 
-  if (!response.ok) throw new Error('Failed to update content');
-
+  await checkError(response);
   const responseData = await response.json();
   return responseData.data;
 };
@@ -96,5 +96,5 @@ export const deleteGithubContent = async ({
     }),
   });
 
-  if (!response.ok) throw new Error('Failed to delete item');
+  await checkError(response);
 };
