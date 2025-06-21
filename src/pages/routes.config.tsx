@@ -26,14 +26,19 @@ export const nestedRoutes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: (
+        <Layout>
+          <Outlet />
+        </Layout>
+      ),
+      children: nestedRoutes,
+    },
+  ],
   {
-    path: '/',
-    element: (
-      <Layout>
-        <Outlet />
-      </Layout>
-    ),
-    children: nestedRoutes,
-  },
-]);
+    basename: process.env.PUBLIC_URL,
+  }
+);
