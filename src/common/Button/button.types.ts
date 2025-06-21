@@ -7,5 +7,4 @@ export enum ButtonType {
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   buttonType?: ButtonType;
-  disabled?: boolean;
 };

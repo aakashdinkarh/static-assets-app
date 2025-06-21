@@ -5,8 +5,6 @@ interface PreviewStore {
   setLoading: (loading: boolean) => void;
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
-  showCommitDialog: boolean;
-  setShowCommitDialog: (showCommitDialog: boolean) => void;
 }
 
 export const usePreviewStore = create<PreviewStore>(set => ({
@@ -14,6 +12,4 @@ export const usePreviewStore = create<PreviewStore>(set => ({
   setLoading: (loading: boolean) => set({ loading }),
   isEditing: false,
   setIsEditing: (isEditing: boolean) => set({ isEditing }),
-  showCommitDialog: false,
-  setShowCommitDialog: (showCommitDialog: boolean) => set({ showCommitDialog }),
 }));

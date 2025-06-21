@@ -1,121 +1,56 @@
-import { useMemo, useState } from 'react';
-import { FilePreview } from 'components/FilePreview';
+import { lazy, Suspense, useState } from 'react';
+import { FilePreviewModal } from 'components/FilePreview';
 import { Breadcrumb } from 'components/Breadcrumb';
 import { useRepoBrowser } from 'hooks/useRepoBrowser';
-import type { RepoItem } from 'types/github';
-import styles from './RepoBrowser.module.css';
-import { DangerButton } from 'common/Button';
 import { useRepoBrowserStore } from 'store/RepoBrowserStore';
-import { ConfirmationModal } from 'components/ConfirmationModal';
-import { useModalStore, ModalScreen } from 'store/ModalStore';
-import { getParentPathForCurrentPath } from 'utils/getParentPathForCurrentPath.util';
+import { RepoListItems, DeleteItemConfirmationModal } from 'components/RepoListItems/RepoListItems';
+import styles from './RepoBrowser.module.css';
+import { SecondaryButton } from 'common/Button/Button';
 
-const rootPath = '/';
+const Error = lazy(() =>
+  import('components/RepoListItems/Error').then(module => ({ default: module.Error }))
+);
 
 export function RepoBrowser() {
   const [previewItemPath, setPreviewItemPath] = useState<string | null>(null);
   const [deleteItemPath, setDeleteItemPath] = useState<string | null>(null);
 
-  const { handleRefresh } = useRepoBrowser();
-  const { listItems, isLoading, error, currentPath, setCurrentPath } = useRepoBrowserStore();
-  const { openModal } = useModalStore();
-
-  const previewItem = useMemo(
-    () => listItems.find(item => item.path === previewItemPath),
-    [listItems, previewItemPath]
-  );
-
-  const handleNavigate = (item: RepoItem) => {
-    if (item.type === 'dir') {
-      setCurrentPath(item.path);
-    } else {
-      // For files, show preview instead of opening in new tab
-      setPreviewItemPath(item.path);
-    }
-  };
-
-  const handleBack = () => {
-    const parentPath = getParentPathForCurrentPath(currentPath);
-    setCurrentPath(parentPath);
-  };
-
-  const showConfirmDeleteModal = (itemPath: string) => {
-    setDeleteItemPath(itemPath);
-    openModal(ModalScreen.ConfirmationModal);
-  };
-
-  if (isLoading) return <div className={styles.loading}>Loading...</div>;
-  if (error) return <div className={styles.error}>{error}</div>;
+  const { handleRefresh, handleDelete } = useRepoBrowser();
+  const { isLoading, error, currentPath, setCurrentPath } = useRepoBrowserStore();
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>Repository Browser</h1>
-        <div className={styles.headerActions}>
-          {currentPath !== rootPath && (
-            <button onClick={handleBack} className={styles.backButton}>
-              Back
-            </button>
-          )}
-          <button onClick={handleRefresh} className={styles.refreshButton}>
-            Refresh
-          </button>
-        </div>
-        <Breadcrumb rootPath={rootPath} currentPath={currentPath} onNavigate={setCurrentPath} />
+        <h1>
+          Repository Browser{' '}
+          <SecondaryButton
+            disabled={isLoading}
+            className={styles.refreshButton}
+            onClick={handleRefresh}
+          >
+            🔄
+          </SecondaryButton>
+        </h1>
+
+        <Breadcrumb currentPath={currentPath} onNavigate={setCurrentPath} />
       </div>
 
-      <div className={styles.itemList}>
-        {listItems.map(item => (
-          <div key={item.path} className={styles.item}>
-            <div
-              className={styles.itemName}
-              onClick={() => handleNavigate(item)}
-              role="button"
-              tabIndex={0}
-            >
-              {item.type === 'dir' ? '📁 ' : '📄 '}
-              {item.name}
-              {item.type === 'file' && item.size && (
-                <span className={styles.fileSize}>({(item.size / 1024).toFixed(1)} KB)</span>
-              )}
-            </div>
-            {item.type === 'file' && (
-              <div className={styles.actions}>
-                <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>
-                  Delete
-                </DangerButton>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      {error ? (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Error error={error} />
+        </Suspense>
+      ) : (
+        <RepoListItems
+          setPreviewItemPath={setPreviewItemPath}
+          setDeleteItemPath={setDeleteItemPath}
+        />
+      )}
 
-      {previewItem && <FilePreview item={previewItem} onClose={() => setPreviewItemPath(null)} />}
+      {previewItemPath && <FilePreviewModal previewItemPath={previewItemPath} />}
 
-      {deleteItemPath && <DeleteItemConfirmationModal deleteItemPath={deleteItemPath} />}
+      {deleteItemPath && (
+        <DeleteItemConfirmationModal deleteItemPath={deleteItemPath} handleDelete={handleDelete} />
+      )}
     </div>
   );
 }
-
-const DeleteItemConfirmationModal = ({ deleteItemPath }: { deleteItemPath: string }) => {
-  const { listItems } = useRepoBrowserStore();
-  const { handleDelete } = useRepoBrowser();
-
-  const itemToDelete = listItems.find(item => item.path === deleteItemPath);
-
-  if (!itemToDelete) return null;
-
-  const message = (
-    <span style={{ wordBreak: 'break-all' }}>
-      Are you sure you want to delete <strong>{deleteItemPath}</strong>?
-    </span>
-  );
-
-  return (
-    <ConfirmationModal
-      title="Delete Item"
-      message={message}
-      onConfirm={() => handleDelete(itemToDelete)}
-    />
-  );
-};

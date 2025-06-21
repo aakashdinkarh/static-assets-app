@@ -1,33 +1,42 @@
 import type { ButtonProps } from './button.types';
 import styles from './button.module.css';
+import { mergeClasses } from 'utils/mergeClasses';
 
-export const DangerButton = ({ children, ...props }: ButtonProps) => {
+export const DangerButton = ({ children, className, ...props }: ButtonProps) => {
   return (
-    <button {...props} className={styles.dangerButton}>
+    <button {...props} className={mergeClasses(styles.dangerButton, className)}>
       {children}
     </button>
   );
 };
 
-export const PrimaryButton = ({ children, ...props }: ButtonProps) => {
+export const PrimaryButton = ({ children, className, ...props }: ButtonProps) => {
   return (
-    <button {...props} className={styles.primaryButton}>
+    <button {...props} className={mergeClasses(styles.primaryButton, className)}>
       {children}
     </button>
   );
 };
 
-export const SecondaryButton = ({ children, ...props }: ButtonProps) => {
+export const SecondaryButton = ({ children, className, ...props }: ButtonProps) => {
   return (
-    <button {...props} className={styles.secondaryButton}>
+    <button {...props} className={mergeClasses(styles.secondaryButton, className)}>
       {children}
     </button>
   );
 };
 
-export const CrossButton = ({ children = '✕', ...props }: ButtonProps) => {
+export const CrossButton = ({ children = '✕', className, ...props }: ButtonProps) => {
   return (
-    <button {...props} className={styles.crossButton}>
+    <button {...props} className={mergeClasses(styles.crossButton, className)}>
+      {children}
+    </button>
+  );
+};
+
+export const ButtonLink = ({ children = '', className, ...props }: ButtonProps) => {
+  return (
+    <button {...props} className={mergeClasses(styles.buttonLink, className)}>
       {children}
     </button>
   );

@@ -38,7 +38,7 @@ export const getUserGithubInfo = async (code: string): Promise<UserInfo | null> 
     delete data.data.authToken;
 
     // TODO: change the cookie expiration time to appropriate value
-    setCookie(AUTHORIZATION_COOKIE_NAME, authToken, 60 * 60 * 24 * 7); // 1 week in seconds
+    setCookie(AUTHORIZATION_COOKIE_NAME, authToken, 60 * 60 * 24 * 1); // 1 day in seconds
 
     return data.data;
   } catch (error) {

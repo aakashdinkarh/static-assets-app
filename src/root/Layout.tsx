@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-import styles from './layout.module.css';
-import './global.css';
+import { NavLink } from 'react-router-dom';
 import { Routes } from 'constants/route.constant';
 import { LoginWithGithubModal } from 'components/LoginWithGithubModal';
 import { ModalScreen, useModalStore } from 'store/ModalStore';
@@ -8,10 +6,12 @@ import { useGithubAuthListener } from 'hooks/useGithubAuthListener';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 import { LogoutPopup } from 'components/LogoutPopup';
 import { useLogoutPopupStore } from 'store/LogoutPopupStore';
-// export const metadata: Metadata = {
-//   title: 'GitHub Image Uploader',
-//   description: 'Upload images to specific directories in GitHub repositories',
-// };
+import { GITHUB_LOGO } from 'constants/image.constant';
+import { Image } from 'common/Image';
+import { mergeClasses } from 'utils/mergeClasses';
+import { ButtonLink } from 'common/Button/Button';
+import styles from './layout.module.css';
+import './global.css';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { openModal } = useModalStore();
@@ -24,18 +24,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <main className={styles.main}>
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <Link to={Routes.home} className={styles.logo}>
+          <NavLink to={Routes.home} className={styles.logo}>
             Static Assets
-          </Link>
+          </NavLink>
 
           {/* Navigation Links */}
           <nav className={styles.nav}>
-            <Link to={Routes.uploadImage} className={styles.navLink}>
+            <NavLink
+              to={Routes.uploadImage}
+              className={({ isActive }) =>
+                mergeClasses(styles.navLink, { [styles.activeNavLink]: isActive })
+              }
+            >
               Upload Image
-            </Link>
-            <Link to={Routes.repoBrowser} className={styles.navLink}>
+            </NavLink>
+            <NavLink
+              to={Routes.repoBrowser}
+              className={({ isActive }) =>
+                mergeClasses(styles.navLink, { [styles.activeNavLink]: isActive })
+              }
+            >
               Browse Repository
-            </Link>
+            </NavLink>
           </nav>
 
           {/* Vertical Divider */}
@@ -43,26 +53,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Login with GitHub */}
           {!userInfo && (
-            <button
+            <ButtonLink
               onClick={() => openModal(ModalScreen.LoginWithGithub)}
               className={styles.githubLoginButton}
               aria-label="Login with GitHub"
               title="Login with GitHub"
             >
-              <img
-                width={22}
-                src="https://aakashdinkarh.github.io/static_assets/images/svgs/github.svg"
-                alt="GitHub"
-              />
-            </button>
+              <Image src={GITHUB_LOGO} alt="GitHub" width={22} />
+            </ButtonLink>
           )}
 
           {userInfo && (
-            <img
-              width={26}
+            <Image
               src={userInfo.user.avatar}
               alt="User Avatar"
               title={userInfo.user.name}
+              width={26}
               className={styles.userAvatar}
               onClick={e => {
                 e.stopPropagation();

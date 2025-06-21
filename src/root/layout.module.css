@@ -65,11 +65,16 @@
   cursor: pointer;
 }
 
-.userAvatar {
+button.userAvatar {
   display: inline-flex;
   border: 1px solid #333;
   border-radius: 50%;
   aspect-ratio: 1;
   margin-left: 0.75rem;
   cursor: pointer;
+}
+
+.activeNavLink {
+  color: #1e293b;
+  font-weight: 600;
 }

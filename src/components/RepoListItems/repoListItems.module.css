@@ -1,0 +1,60 @@
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.loadingList .item {
+  background: linear-gradient(#ebebeb 25%, #e0e0e0 50%, #ebebeb 75%);
+  background-size: 100% 200%;
+  animation: shimmer 1.5s infinite linear;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 0 -100%;
+  }
+}
+
+.loadingList .itemName {
+  min-height: 29px;
+}
+
+.itemName {
+  flex: 1;
+  padding: 0.25rem;
+}
+.itemName:not(.loadingList .itemName) {
+  cursor: pointer;
+}
+
+.itemName:not(.loadingList .itemName):hover {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.fileSize {
+  color: #666;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.error {
+  color: #cc0000;
+}

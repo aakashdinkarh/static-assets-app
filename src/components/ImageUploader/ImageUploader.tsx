@@ -1,9 +1,11 @@
-import type { FormEvent } from 'react';
 import { useState, useEffect } from 'react';
 import { Image } from 'common/Image';
 import type { GithubUploadResponse } from 'types/github';
 import { uploadGithubContent } from 'api/githubContent';
 import styles from './imageUploader.module.css';
+import { PrimaryButton } from 'common/Button';
+import { Input } from 'common/Input';
+import { Form } from 'common/Form';
 
 interface ImageUploaderProps {
   onSuccess?: (response: GithubUploadResponse) => void;
@@ -29,6 +31,7 @@ const changeFilenameInput = (form: HTMLFormElement | null, fileName?: string) =>
 export function ImageUploader({ onSuccess, onError }: ImageUploaderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     // Cleanup previous preview URL when file changes
@@ -55,14 +58,10 @@ export function ImageUploader({ onSuccess, onError }: ImageUploaderProps) {
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const file = formData.get(FORM_FIELDS.file) as File;
-    const directory = formData.get(FORM_FIELDS.directory) as string;
-    const filename = formData.get(FORM_FIELDS.filename) as string;
+  const handleSubmit = async (data: Record<string, FormDataEntryValue>, form: HTMLFormElement) => {
+    const file = data[FORM_FIELDS.file] as File;
+    const directory = data[FORM_FIELDS.directory] as string;
+    const filename = data[FORM_FIELDS.filename] as string;
 
     if (!file || !directory || !filename) {
       onError?.('Please fill in all fields');
@@ -89,23 +88,18 @@ export function ImageUploader({ onSuccess, onError }: ImageUploaderProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <Form onSubmit={handleSubmit} validateAll onError={setErrors} className={styles.form}>
       <div className={styles.fileInputWrapper}>
         <div className={styles.fileInputContainer}>
-          <div className={styles.formGroup}>
-            <label htmlFor={FORM_FIELDS.file} className={styles.label}>
-              Image File
-            </label>
-            <input
-              type="file"
-              id={FORM_FIELDS.file}
-              name={FORM_FIELDS.file}
-              accept="image/*"
-              onChange={handleFileChange}
-              className={styles.input}
-              required
-            />
-          </div>
+          <Input
+            label="Image File"
+            name={FORM_FIELDS.file}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            errorMessage={errors[FORM_FIELDS.file]}
+            required
+          />
         </div>
         <div className={styles.previewContainer}>
           {previewUrl ? (
@@ -123,37 +117,27 @@ export function ImageUploader({ onSuccess, onError }: ImageUploaderProps) {
         </div>
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor={FORM_FIELDS.directory} className={styles.label}>
-          Directory Path
-        </label>
-        <input
-          type="text"
-          id={FORM_FIELDS.directory}
-          name={FORM_FIELDS.directory}
-          placeholder="e.g., images/blog"
-          className={styles.input}
-          required
-        />
-      </div>
+      <Input
+        label="Directory Path"
+        name={FORM_FIELDS.directory}
+        placeholder="e.g., images/blog"
+        errorMessage={errors[FORM_FIELDS.directory]}
+      />
 
-      <div className={styles.formGroup}>
-        <label htmlFor={FORM_FIELDS.filename} className={styles.label}>
-          File Name
-        </label>
-        <input
-          type="text"
-          id={FORM_FIELDS.filename}
-          name={FORM_FIELDS.filename}
-          placeholder="e.g., header-image.jpg"
-          className={styles.input}
-          required
-        />
-      </div>
+      <Input
+        label="File Name"
+        name={FORM_FIELDS.filename}
+        placeholder="e.g., header-image.jpg"
+        errorMessage={errors[FORM_FIELDS.filename]}
+      />
 
-      <button type="submit" disabled={isLoading} className={styles.button}>
+      <PrimaryButton type="submit" disabled={isLoading} style={submitButtonStyle}>
         {isLoading ? 'Uploading...' : 'Upload Image'}
-      </button>
-    </form>
+      </PrimaryButton>
+    </Form>
   );
 }
+
+const submitButtonStyle = {
+  justifyContent: 'center',
+};

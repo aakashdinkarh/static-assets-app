@@ -1,12 +1,15 @@
-import { Routes } from 'constants/route.constant';
 import { lazy } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
-
 import { Layout } from 'root/Layout';
+import { Routes } from 'constants/route.constant';
 
-const HomePage = lazy(() => import('./page').then((module) => ({ default: module.HomePage })));
-const UploadPage = lazy(() => import('./uploadImage/page').then((module) => ({ default: module.UploadPage })));
-const RepoBrowser = lazy(() => import('./RepoBrowser/RepoBrowser').then((module) => ({ default: module.RepoBrowser })));
+const HomePage = lazy(() => import('./page').then(module => ({ default: module.HomePage })));
+const UploadPage = lazy(() =>
+  import('./uploadImage/page').then(module => ({ default: module.UploadPage }))
+);
+const RepoBrowser = lazy(() =>
+  import('./RepoBrowser/RepoBrowser').then(module => ({ default: module.RepoBrowser }))
+);
 
 export const nestedRoutes: RouteObject[] = [
   {
@@ -24,13 +27,13 @@ export const nestedRoutes: RouteObject[] = [
 ];
 
 export const router = createBrowserRouter([
-	{
-		path    : '/',
-		element : (
+  {
+    path: '/',
+    element: (
       <Layout>
         <Outlet />
       </Layout>
-		),
-		children: nestedRoutes,
-	},
+    ),
+    children: nestedRoutes,
+  },
 ]);

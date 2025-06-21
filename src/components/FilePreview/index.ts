@@ -1,1 +1,1 @@
-export { FilePreview } from 'components/FilePreview/FilePreview';
+export { FilePreviewModal } from 'components/FilePreview/FilePreview';

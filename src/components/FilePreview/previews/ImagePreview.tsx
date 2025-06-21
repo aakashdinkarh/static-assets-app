@@ -1,16 +1,8 @@
 import styles from './previews.module.css';
+import { Image } from 'common/Image';
 
-interface ImagePreviewProps {
-  url: string;
-  alt: string;
+type ImagePreviewProps = React.ComponentProps<typeof Image>;
+
+export function ImagePreview({ src, alt }: ImagePreviewProps) {
+  return <Image src={src} alt={alt} className={styles.imagePreview} />;
 }
-
-export function ImagePreview({ url, alt }: ImagePreviewProps) {
-  return (
-    <img 
-      src={url} 
-      alt={alt}
-      className={styles.imagePreview}
-    />
-  );
-} 

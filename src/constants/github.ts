@@ -5,8 +5,8 @@ export const GITHUB_CONFIG = {
   REDIRECT_URI: process.env.REACT_APP_CLIENT_URL + '/repository',
 } as const;
 
-// Cache expiration time (5 minutes)
-export const CACHE_EXPIRATION = 5 * 60 * 1000;
+// Cache expiration time (2 minutes)
+export const CACHE_EXPIRATION = 2 * 60 * 1000;
 
 // In-memory cache object
 export const cache: { [key: string]: CacheEntry } = {};

@@ -1,6 +1,4 @@
-import { CACHE_EXPIRATION } from 'constants/github';
-
-import { cache } from 'constants/github';
+import { CACHE_EXPIRATION, cache } from 'constants/github';
 import type { RepoItem } from 'types/github';
 
 export const getCachedData = (path: string): RepoItem[] | null => {
@@ -10,7 +8,7 @@ export const getCachedData = (path: string): RepoItem[] | null => {
   const now = Date.now();
   if (now - cacheEntry.timestamp > CACHE_EXPIRATION) {
     // Cache expired, remove it
-    delete cache[path];
+    deleteCachedData(path);
     return null;
   }
 

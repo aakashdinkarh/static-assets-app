@@ -1,6 +1,8 @@
 import { ModalScreen, useModalStore } from 'store/ModalStore';
 import { GITHUB_AUTH_URL } from 'constants/github';
 import { Modal } from 'common/Modal';
+import { Image } from 'common/Image';
+import { GITHUB_LOGO } from 'constants/image.constant';
 
 export const LoginWithGithubModal = () => {
   const { modalScreen } = useModalStore();
@@ -8,11 +10,7 @@ export const LoginWithGithubModal = () => {
 
   const primaryActionLabel = (
     <>
-      <img
-        src="https://aakashdinkarh.github.io/static_assets/images/svgs/github.svg"
-        alt="GitHub"
-        width={22}
-      />
+      <Image src={GITHUB_LOGO} alt="GitHub" width={22} />
       Continue with GitHub
     </>
   );
@@ -29,7 +27,7 @@ export const LoginWithGithubModal = () => {
       secondaryActionLabel="Close"
       primaryActionHandler={primaryActionHandler}
     >
-      Login with GitHub to authorize yourself to perform actions on your repositories.
+      Login with GitHub to authorize yourself to perform actions on this repository.
     </Modal>
   );
 };

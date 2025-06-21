@@ -8,9 +8,7 @@ import { getCommonHeaders } from 'utils/commonHeaders.util';
 
 export const getGithubContent = async (path: string) => {
   const url = `${GET_GITHUB_CONTENT.url}?path=${path}`;
-  const response = await fetch(url, {
-    headers: getCommonHeaders(),
-  });
+  const response = await fetch(url);
 
   if (!response.ok) throw new Error('Failed to fetch repository contents');
   const responseData = await response.json();

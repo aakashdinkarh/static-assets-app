@@ -13,6 +13,11 @@ export const Modal = ({
   secondaryActionLabel,
   primaryActionHandler,
   primaryActionType = ButtonType.Primary,
+  modalStyle = {
+    maxWidth: '400px',
+  },
+  showFooter = true,
+  overrideOnClose = false,
 }: {
   isOpen: boolean;
   onClose?: () => void;
@@ -22,11 +27,23 @@ export const Modal = ({
   secondaryActionLabel: React.ReactNode;
   primaryActionHandler: () => void;
   primaryActionType?: ButtonType;
+  modalStyle?: React.CSSProperties;
+  showFooter?: boolean;
+  overrideOnClose?: boolean;
 }) => {
   const { closeModal, modalActionsDisabled } = useModalStore();
 
   const overlayRef = useRef<HTMLDivElement>(null);
   if (!isOpen) return null;
+
+  const handleCloseModal = () => {
+    if (overrideOnClose) {
+      onClose?.();
+    } else {
+      closeModal();
+      onClose?.();
+    }
+  };
 
   const handleCloseModalWithBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (modalActionsDisabled) {
@@ -35,14 +52,8 @@ export const Modal = ({
     }
 
     if (overlayRef.current === e.target) {
-      closeModal();
-      onClose?.();
+      handleCloseModal();
     }
-  };
-
-  const handleCloseModal = () => {
-    closeModal();
-    onClose?.();
   };
 
   return (
@@ -51,7 +62,7 @@ export const Modal = ({
       className={styles.modalBackgroundOverlay}
       onClick={handleCloseModalWithBackdropClick}
     >
-      <dialog open className={styles.modal}>
+      <dialog open className={styles.modal} style={modalStyle}>
         <div className={styles.modalContent}>
           <div className={styles.crossButtonContainer}>
             <CrossButton disabled={modalActionsDisabled} onClick={handleCloseModal} />
@@ -59,21 +70,23 @@ export const Modal = ({
 
           <div className={styles.modalHeader}>{title}</div>
 
-          <p className={styles.modalBody}>{children}</p>
+          <div className={styles.modalBody}>{children}</div>
 
-          <div className={styles.modalFooter}>
-            <Button
-              disabled={modalActionsDisabled}
-              buttonType={primaryActionType}
-              onClick={primaryActionHandler}
-            >
-              {primaryActionLabel}
-            </Button>
+          {showFooter && (
+            <div className={styles.modalFooter}>
+              <Button
+                disabled={modalActionsDisabled}
+                buttonType={primaryActionType}
+                onClick={primaryActionHandler}
+              >
+                {primaryActionLabel}
+              </Button>
 
-            <SecondaryButton disabled={modalActionsDisabled} onClick={closeModal}>
-              {secondaryActionLabel}
-            </SecondaryButton>
-          </div>
+              <SecondaryButton disabled={modalActionsDisabled} onClick={handleCloseModal}>
+                {secondaryActionLabel}
+              </SecondaryButton>
+            </div>
+          )}
         </div>
       </dialog>
     </div>

@@ -70,7 +70,6 @@ export const useRepoBrowser = () => {
   }, [currentPath, fetchDirectoryContents, isAuthenticated]);
 
   return {
-    fetchDirectoryContents,
     handleDelete,
     handleRefresh,
   };
