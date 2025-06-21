@@ -1,0 +1,65 @@
+.modalBackgroundOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.modal {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  margin: 0 auto;
+  animation: fadeInAndSlideUp 0.3s ease-in-out;
+  animation-fill-mode: forwards;
+}
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeInAndSlideUp {
+  from {
+    opacity: 0;
+    margin-top: 30px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
+.modalHeader {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modalBody {
+  font-size: 14px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.crossButtonContainer {
+  position: absolute;
+  top: -12px;
+  right: -18px;
+}

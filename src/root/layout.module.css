@@ -1,0 +1,80 @@
+.main {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1e293b;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.navLink {
+  color: #64748b;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #1e293b;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.verticalDivider {
+  background-color: #e2e8f0;
+  align-self: stretch;
+  width: 1px;
+  margin-left: 0.75rem;
+}
+
+.githubLoginButton {
+  display: inline-flex;
+  background-color: #333;
+  border: 1px solid #333;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  margin-left: 0.75rem;
+  padding: 1px;
+  cursor: pointer;
+}
+
+button.userAvatar {
+  display: inline-flex;
+  border: 1px solid #333;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  margin-left: 0.75rem;
+  cursor: pointer;
+}
+
+.activeNavLink {
+  color: #1e293b;
+  font-weight: 600;
+}

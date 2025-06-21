@@ -1,0 +1,52 @@
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.statusMessage {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #cc0000;
+}
+
+.imageLink {
+  color: #2563eb;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.imageLink:hover {
+  text-decoration: underline;
+}
+
+.instructions {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.instructionsTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.instructionsList {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.instructionsList li {
+  margin-bottom: 0.25rem;
+}

@@ -1,0 +1,68 @@
+.baseButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.baseButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dangerButton {
+  composes: baseButton;
+  background-color: #ff4444;
+  color: white;
+}
+
+.dangerButton:not(:disabled):hover {
+  background-color: #cc0000;
+}
+
+.primaryButton {
+  composes: baseButton;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #24292e;
+  color: white;
+}
+
+.primaryButton:not(:disabled):hover {
+  background-color: #2c3238;
+}
+
+.secondaryButton {
+  composes: baseButton;
+  background-color: white;
+  color: #24292e;
+  border: 1px solid #e1e4e8;
+}
+
+.secondaryButton:not(:disabled):hover {
+  background-color: #f6f8fa;
+}
+
+.crossButton {
+  composes: baseButton;
+  background: none;
+  color: #6e7781;
+  font-size: 18px;
+}
+
+.crossButton:not(:disabled):hover {
+  color: #24292e;
+}
+
+.buttonLink {
+  composes: baseButton;
+  padding: 2px;
+  background: none;
+  color: #0066cc;
+  font-size: 1rem;
+}
+
+.buttonLink:not(:disabled):hover {
+  text-decoration: underline;
+}
