@@ -1,6 +1,6 @@
 import { GITHUB_USER_INFO } from 'constants/api.constant';
 import { AUTHORIZATION_COOKIE_NAME, setCookie } from 'utils/cookie.util';
-
+import { checkError } from 'utils/apiHandlers.util';
 type UserInfo = {
   repo: {
     name: string;
@@ -31,6 +31,8 @@ export const getUserGithubInfo = async (code: string): Promise<UserInfo | null> 
       method: GITHUB_USER_INFO.method,
       body: JSON.stringify({ code }),
     });
+
+    await checkError(response);
     const data: UserInfoResponse = await response.json();
     // @ts-expect-error - authToken will be removed from the response
     const authToken = data.data.authToken;
