@@ -3,7 +3,7 @@ import { GITHUB_CLIENT_ID, CLIENT_URL } from 'constants/client.config';
 
 export const GITHUB_CONFIG = {
   CLIENT_ID: GITHUB_CLIENT_ID,
-  REDIRECT_URI: CLIENT_URL + '/repository',
+  REDIRECT_URI: CLIENT_URL + process.env.PUBLIC_URL + '/repository',
 } as const;
 
 // Cache expiration time (2 minutes)
