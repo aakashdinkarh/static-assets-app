@@ -1,8 +1,9 @@
 import type { CacheEntry } from 'types/github';
+import { GITHUB_CLIENT_ID, CLIENT_URL } from 'constants/client.config';
 
 export const GITHUB_CONFIG = {
-  CLIENT_ID: process.env.REACT_APP_GITHUB_CLIENT_ID,
-  REDIRECT_URI: process.env.REACT_APP_CLIENT_URL + '/repository',
+  CLIENT_ID: GITHUB_CLIENT_ID,
+  REDIRECT_URI: CLIENT_URL + '/repository',
 } as const;
 
 // Cache expiration time (2 minutes)

@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import { API_BASE_URL } from 'constants/client.config';
+
 const GITHUB_API_BASE_URL = `${API_BASE_URL}/api/github`;
 
 export const GET_GITHUB_CONTENT = {
