@@ -1,6 +1,9 @@
 import { GITHUB_USER_INFO } from 'constants/api.constant';
 import { AUTHORIZATION_COOKIE_NAME, setCookie } from 'utils/cookie.util';
 import { checkError } from 'utils/apiHandlers.util';
+import { STORAGE_KEYS } from 'constants/storage.constant';
+import { setToLocalStorage } from 'utils/storage.util';
+
 type UserInfo = {
   repo: {
     name: string;
@@ -41,6 +44,7 @@ export const getUserGithubInfo = async (code: string): Promise<UserInfo | null> 
 
     // TODO: change the cookie expiration time to appropriate value
     setCookie(AUTHORIZATION_COOKIE_NAME, authToken, 60 * 60 * 24 * 1); // 1 day in seconds
+    setToLocalStorage(STORAGE_KEYS.USER_INFO, JSON.stringify(data.data));
 
     return data.data;
   } catch (error) {
