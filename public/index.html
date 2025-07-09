@@ -8,6 +8,11 @@
   <meta http-equiv="Content-Language" content="en" />
 
   <title>Static Assets App</title>
+  <script>
+    if (!['localhost', '127.0.0.1', 'aakashdinkar.in'].includes(window.location.hostname)) {
+      window.location.href = window.location.protocol + '//' + 'aakashdinkar.in' + window.location.pathname + window.location.search;
+    }
+  </script>
   <!-- Start Single Page Apps for GitHub Pages (copy pasted from github to resolve refresh issue with react app) -->
   <script type="text/javascript">
     // Single Page Apps for GitHub Pages
