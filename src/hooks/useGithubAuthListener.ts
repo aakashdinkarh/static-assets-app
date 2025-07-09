@@ -6,18 +6,22 @@ import { STORAGE_KEYS } from 'constants/storage.constant';
 import { getFromLocalStorage, removeFromLocalStorage } from 'utils/storage.util';
 import { AUTHORIZATION_COOKIE_NAME } from 'utils/cookie.util';
 import { getCookie } from 'utils/cookie.util';
+import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 
 export const useGithubAuthListener = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { setUserInfo } = useGithubUserInfoStore();
+  const { setBranch } = useRepoBrowserStore();
 
   useEffect(() => {
     const cookie = getCookie(AUTHORIZATION_COOKIE_NAME);
     const userInfo = getFromLocalStorage(STORAGE_KEYS.USER_INFO);
 
     if (cookie && userInfo) {
-      setUserInfo(JSON.parse(userInfo));
+      const userInfoData = JSON.parse(userInfo);
+      setUserInfo(userInfoData);
+      setBranch(userInfoData?.repo?.branch ?? null);
       return;
     } else {
       removeFromLocalStorage(STORAGE_KEYS.USER_INFO);
@@ -30,8 +34,9 @@ export const useGithubAuthListener = () => {
       (async () => {
         const userInfo = await getUserGithubInfo(code);
         setUserInfo(userInfo);
+        setBranch(userInfo?.repo?.branch ?? null);
       })();
     }
     setSearchParams(restParams);
-  }, [searchParams, setSearchParams, setUserInfo]);
+  }, [searchParams, setSearchParams, setUserInfo, setBranch]);
 };
