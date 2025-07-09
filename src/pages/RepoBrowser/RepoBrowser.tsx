@@ -15,12 +15,12 @@ export function RepoBrowser() {
   const [previewItemPath, setPreviewItemPath] = useState<string | null>(null);
   const [deleteItemPath, setDeleteItemPath] = useState<string | null>(null);
 
-  const { handleDelete } = useRepoBrowser();
+  const { handleDelete, handleRefresh } = useRepoBrowser();
   const { error, currentPath, setCurrentPath } = useRepoBrowserStore();
 
   return (
     <div className={styles.container}>
-      <RepoBrowserHeader />
+      <RepoBrowserHeader handleRefresh={handleRefresh} />
 
       <Breadcrumb currentPath={currentPath} onNavigate={setCurrentPath} />
 

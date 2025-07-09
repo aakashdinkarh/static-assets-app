@@ -1,14 +1,11 @@
 import { SecondaryButton } from 'common/Button/Button';
-import { useRepoBrowser } from 'hooks/useRepoBrowser';
 import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 import { Image } from 'common/Image';
 import { GIT_BRANCH_LOGO } from 'constants/image.constant';
 
 import styles from './RepoBrowser.module.css';
 
-export const RepoBrowserHeader = () => {
-  const { handleRefresh } = useRepoBrowser();
-
+export const RepoBrowserHeader = ({ handleRefresh }: { handleRefresh: () => void }) => {
   const { isLoading, branch } = useRepoBrowserStore();
 
   return (
