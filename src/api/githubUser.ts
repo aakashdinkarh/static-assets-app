@@ -8,6 +8,7 @@ type UserInfo = {
   repo: {
     name: string;
     fullName: string;
+    branch: string;
     permissions: {
       admin: boolean;
       maintain: boolean;

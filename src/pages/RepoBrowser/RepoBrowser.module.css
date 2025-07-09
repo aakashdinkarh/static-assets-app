@@ -4,6 +4,16 @@
 
 .header {
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.branchName {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  cursor: default;
 }
 
 .refreshButton {
@@ -11,5 +21,4 @@
   font-size: 1.4rem;
   background-color: transparent;
   border: none;
-  margin-left: 0.5rem;
 }

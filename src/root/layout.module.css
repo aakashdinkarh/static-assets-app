@@ -54,24 +54,23 @@
   margin-left: 0.75rem;
 }
 
-.githubLoginButton {
+.profileIcon {
   display: inline-flex;
-  background-color: #333;
   border: 1px solid #333;
   border-radius: 50%;
   aspect-ratio: 1;
   margin-left: 0.75rem;
-  padding: 1px;
   cursor: pointer;
 }
 
-button.userAvatar {
-  display: inline-flex;
-  border: 1px solid #333;
-  border-radius: 50%;
-  aspect-ratio: 1;
-  margin-left: 0.75rem;
-  cursor: pointer;
+.githubLoginButton {
+  composes: profileIcon;
+  background-color: #333;
+  padding: 1px;
+}
+
+.userAvatar {
+  composes: profileIcon;
 }
 
 .activeNavLink {

@@ -2,6 +2,8 @@ import type { RepoItem } from 'types/github';
 import { create } from 'zustand';
 
 interface RepoBrowserStore {
+  branch: string | null;
+  setBranch: (branch: string | null) => void;
   currentPath: string;
   setCurrentPath: (path: string) => void;
   listItems: RepoItem[];
@@ -13,6 +15,8 @@ interface RepoBrowserStore {
 }
 
 export const useRepoBrowserStore = create<RepoBrowserStore>(set => ({
+  branch: '',
+  setBranch: branch => set({ branch }),
   currentPath: '/',
   setCurrentPath: path => set({ currentPath: path }),
   listItems: [],
