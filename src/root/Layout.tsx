@@ -3,6 +3,7 @@ import { Routes } from 'constants/route.constant';
 import { LoginWithGithubModal } from 'components/LoginWithGithubModal';
 import { ModalScreen, useModalStore } from 'store/ModalStore';
 import { useGithubAuthListener } from 'hooks/useGithubAuthListener';
+import { useGithubBranchListener } from 'hooks/useGithubBranchListener';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 import { LogoutPopup } from 'components/LogoutPopup';
 import { useLogoutPopupStore } from 'store/LogoutPopupStore';
@@ -17,6 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const { openModal } = useModalStore();
   const { openPopup: openLogoutPopup } = useLogoutPopupStore();
 
+  useGithubBranchListener();
   useGithubAuthListener();
   const { userInfo } = useGithubUserInfoStore();
 

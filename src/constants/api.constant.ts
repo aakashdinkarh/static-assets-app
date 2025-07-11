@@ -26,3 +26,8 @@ export const GITHUB_USER_INFO = {
   url: `${GITHUB_API_BASE_URL}/auth`,
   method: 'POST',
 } as const;
+
+export const GET_GITHUB_BRANCH = {
+  url: `${GITHUB_API_BASE_URL}/branch`,
+  method: 'GET',
+} as const;

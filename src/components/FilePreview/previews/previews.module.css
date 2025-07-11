@@ -8,6 +8,9 @@
   padding: 1rem;
   text-align: center;
 }
+.warn {
+  color: #ffa000;
+}
 
 .editActions {
   display: flex;

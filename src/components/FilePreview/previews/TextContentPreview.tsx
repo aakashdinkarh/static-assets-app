@@ -7,6 +7,8 @@ import { PrimaryButton, SecondaryButton } from 'common/Button';
 import { useModalStore } from 'store/ModalStore';
 import { ModalScreen } from 'store/ModalStore';
 import { Textarea } from 'common/Textarea';
+import { CACHE_CONTROL_HEADER } from 'constants/headers.constant';
+import { getCacheControlMessage } from 'utils/getCacheControlMessage.util';
 import styles from './previews.module.css';
 
 interface TextContentPreviewProps {
@@ -15,10 +17,12 @@ interface TextContentPreviewProps {
   sha: string;
   contentValidation?: (content: string) => void;
 }
+type ResponseHeaders = Record<string, string | null>;
 const textareaStyle = { width: 'calc(90vw - 3rem)' };
 
 export function TextContentPreview({ url, path, sha, contentValidation }: TextContentPreviewProps) {
   const [content, setContent] = useState<string | null>(null);
+  const [responseHeaders, setResponseHeaders] = useState<ResponseHeaders | null>(null);
   const [error, setError] = useState<{ preview?: string; commit?: string } | null>(null);
 
   const { loading, setLoading, isEditing, setIsEditing } = usePreviewStore();
@@ -52,6 +56,9 @@ export function TextContentPreview({ url, path, sha, contentValidation }: TextCo
         if (!response.ok) throw new Error('Failed to fetch file content');
         const text = await response.text();
         setContent(text);
+        setResponseHeaders({
+          [CACHE_CONTROL_HEADER]: response.headers.get(CACHE_CONTROL_HEADER),
+        });
       } catch (err) {
         setError({ preview: err instanceof Error ? err.message : 'Failed to load content' });
       } finally {
@@ -124,10 +131,17 @@ export function TextContentPreview({ url, path, sha, contentValidation }: TextCo
   if (error?.preview && !content) return <div className={styles.error}>{error.preview}</div>;
   if (!content) return <div className={styles.error}>No content available</div>;
 
+  const cacheControlHeaderValue = responseHeaders?.[CACHE_CONTROL_HEADER];
+
   return (
     <form onSubmit={handleSaveClick}>
       <div className={styles.textContentContainer}>
         <div className={styles.textContentHeaderAndErrorContainer}>
+          {cacheControlHeaderValue && (
+            <div className={styles.warn}>
+              <div>{getCacheControlMessage(cacheControlHeaderValue)}</div>
+            </div>
+          )}
           {error?.preview && <div className={styles.error}>{error.preview}</div>}
 
           <div className={styles.textContentHeader}>
