@@ -72,3 +72,12 @@
 .downloadLink:hover {
   text-decoration: underline;
 }
+
+.pdfViewer {
+  width: calc(80vw - 3rem);
+  height: 100%;
+  min-height: 500px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  margin-top: 1rem;
+}

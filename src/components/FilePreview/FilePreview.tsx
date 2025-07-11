@@ -1,33 +1,22 @@
-import { ImagePreview } from './previews/ImagePreview';
-import { UnsupportedPreview } from './previews/UnsupportedPreview';
-import { TextContentPreview } from './previews/TextContentPreview';
+import { useEffect } from 'react';
 import { Modal } from 'common/Modal/Modal';
+import { ImagePreview } from 'components/FilePreview/previews/ImagePreview';
+import { UnsupportedPreview } from 'components/FilePreview/previews/UnsupportedPreview';
+import { TextContentPreview } from 'components/FilePreview/previews/TextContentPreview';
+import { PDFPreview } from 'components/FilePreview/previews/PdfPreview';
 import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 import { ModalScreen, useModalStore } from 'store/ModalStore';
-import { useEffect } from 'react';
 import { usePreviewStore } from 'store/PreviewStore';
+import {
+  isImageFile,
+  isPdfFile,
+  isTextContentFile,
+  getValidatorForTextContentFile,
+} from 'utils/file.util';
 
 interface FilePreviewProps {
   previewItemPath: string;
 }
-
-const isImageFile = (filename: string): boolean => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(filename);
-
-const isTextContentFile = (filename: string): boolean =>
-  filename === 'LICENSE' ||
-  /\.(txt|md|json|html|css|js|jsx|ts|tsx|yaml|yml|xml|csv|log)$/i.test(filename);
-
-const validatorsForTextContentFiles = {
-  json: JSON.parse,
-};
-
-const getValidatorForTextContentFile = (filename: string) => {
-  if (!isTextContentFile(filename)) return;
-
-  return validatorsForTextContentFiles[
-    filename.split('.').pop() as keyof typeof validatorsForTextContentFiles
-  ];
-};
 
 export const FilePreviewModal = ({ previewItemPath }: FilePreviewProps) => {
   const { listItems } = useRepoBrowserStore();
@@ -48,6 +37,10 @@ export const FilePreviewModal = ({ previewItemPath }: FilePreviewProps) => {
   const renderPreview = () => {
     if (isImageFile(previewItem.name)) {
       return <ImagePreview src={previewItem.download_url!} alt={previewItem.name} />;
+    }
+
+    if (isPdfFile(previewItem.name)) {
+      return <PDFPreview url={previewItem.download_url!} path={previewItem.path} />;
     }
 
     if (isTextContentFile(previewItem.name)) {
