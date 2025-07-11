@@ -13,8 +13,21 @@ interface FilePreviewProps {
 
 const isImageFile = (filename: string): boolean => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(filename);
 
-const isJsonFile = (filename: string): boolean => filename.endsWith('.json');
-const isHTMLFile = (filename: string): boolean => filename.endsWith('.html');
+const isTextContentFile = (filename: string): boolean =>
+  filename === 'LICENSE' ||
+  /\.(txt|md|json|html|css|js|jsx|ts|tsx|yaml|yml|xml|csv|log)$/i.test(filename);
+
+const validatorsForTextContentFiles = {
+  json: JSON.parse,
+};
+
+const getValidatorForTextContentFile = (filename: string) => {
+  if (!isTextContentFile(filename)) return;
+
+  return validatorsForTextContentFiles[
+    filename.split('.').pop() as keyof typeof validatorsForTextContentFiles
+  ];
+};
 
 export const FilePreviewModal = ({ previewItemPath }: FilePreviewProps) => {
   const { listItems } = useRepoBrowserStore();
@@ -37,23 +50,13 @@ export const FilePreviewModal = ({ previewItemPath }: FilePreviewProps) => {
       return <ImagePreview src={previewItem.download_url!} alt={previewItem.name} />;
     }
 
-    if (isJsonFile(previewItem.name)) {
+    if (isTextContentFile(previewItem.name)) {
       return (
         <TextContentPreview
           url={previewItem.download_url!}
           path={previewItem.path}
           sha={previewItem.sha}
-          contentValidation={content => JSON.parse(content)}
-        />
-      );
-    }
-
-    if (isHTMLFile(previewItem.name)) {
-      return (
-        <TextContentPreview
-          url={previewItem.download_url!}
-          path={previewItem.path}
-          sha={previewItem.sha}
+          contentValidation={getValidatorForTextContentFile(previewItem.name)}
         />
       );
     }

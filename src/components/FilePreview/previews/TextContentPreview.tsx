@@ -23,7 +23,11 @@ const textareaStyle = { width: 'calc(90vw - 3rem)' };
 export function TextContentPreview({ url, path, sha, contentValidation }: TextContentPreviewProps) {
   const [content, setContent] = useState<string | null>(null);
   const [responseHeaders, setResponseHeaders] = useState<ResponseHeaders | null>(null);
-  const [error, setError] = useState<{ preview?: string; commit?: string } | null>(null);
+  const [error, setError] = useState<{
+    preview?: string;
+    commit?: string;
+    validation?: string;
+  } | null>(null);
 
   const { loading, setLoading, isEditing, setIsEditing } = usePreviewStore();
   const { listItems, setListItems } = useRepoBrowserStore();
@@ -83,7 +87,7 @@ export function TextContentPreview({ url, path, sha, contentValidation }: TextCo
       openScreen(ModalScreen.CommitModal);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to save changes';
-      setError({ commit: 'Validation error: ' + errorMessage });
+      setError({ validation: 'Validation error: ' + errorMessage });
     }
   };
 
@@ -137,12 +141,13 @@ export function TextContentPreview({ url, path, sha, contentValidation }: TextCo
     <form onSubmit={handleSaveClick}>
       <div className={styles.textContentContainer}>
         <div className={styles.textContentHeaderAndErrorContainer}>
-          {cacheControlHeaderValue && (
-            <div className={styles.warn}>
-              <div>{getCacheControlMessage(cacheControlHeaderValue)}</div>
-            </div>
-          )}
-          {error?.preview && <div className={styles.error}>{error.preview}</div>}
+          <div>
+            {cacheControlHeaderValue && (
+              <p className={styles.warn}>{getCacheControlMessage(cacheControlHeaderValue)}</p>
+            )}
+            {error?.preview && <p className={styles.error}>{error.preview}</p>}
+            {error?.validation && <p className={styles.error}>{error.validation}</p>}
+          </div>
 
           <div className={styles.textContentHeader}>
             {!isEditing ? (
