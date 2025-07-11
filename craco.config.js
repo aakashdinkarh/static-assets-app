@@ -4,6 +4,12 @@ module.exports = {
   webpack: {
     alias: {
     },
+    configure: (webpackConfig, { env }) => {
+      if (env === 'production') {
+        webpackConfig.devtool = false;
+      }
+      return webpackConfig;
+    },
   },
   eslint: {
     configure: {
