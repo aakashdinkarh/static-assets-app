@@ -4,6 +4,8 @@ import { useRef, useEffect } from 'react';
 import { deleteCookie } from 'utils/cookie.util';
 import { AUTHORIZATION_COOKIE_NAME } from 'utils/cookie.util';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
+import { STORAGE_KEYS } from 'constants/storage.constant';
+import { removeFromLocalStorage } from 'utils/storage.util';
 
 export const LogoutPopup = () => {
   const { isOpen, closePopup } = useLogoutPopupStore();
@@ -28,6 +30,7 @@ export const LogoutPopup = () => {
 
   const handleLogout = () => {
     deleteCookie(AUTHORIZATION_COOKIE_NAME);
+    removeFromLocalStorage(STORAGE_KEYS.USER_INFO);
     setUserInfo(null);
     closePopup();
   };
