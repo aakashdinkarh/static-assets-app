@@ -1,7 +1,15 @@
 .title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .statusMessage {
@@ -49,4 +57,11 @@
 
 .instructionsList li {
   margin-bottom: 0.25rem;
+}
+
+.branchName {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  cursor: default;
 }

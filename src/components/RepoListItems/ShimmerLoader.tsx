@@ -5,7 +5,7 @@ import styles from './repoListItems.module.css';
 
 const loadingDisabledButtonStyle = {
   minHeight: '31.5px',
-  minWidth: '70.5px',
+  minWidth: '29.95px',
 };
 
 export interface ShimmerLoaderProps extends Pick<RepoItem, 'path' | 'type'> {}

@@ -7,6 +7,8 @@ import { listLoaderDummyData } from 'constants/listLoader.constant';
 import { ShimmerLoader } from 'components/RepoListItems/ShimmerLoader';
 import type { RepoItem } from 'types/github';
 import styles from './repoListItems.module.css';
+import { DUSTBIN_LOGO } from 'constants/image.constant';
+import { Image } from 'common/Image';
 
 interface RepoListItemsProps {
   setPreviewItemPath: React.Dispatch<React.SetStateAction<string | null>>;
@@ -51,14 +53,16 @@ export const RepoListItems = ({ setPreviewItemPath, setDeleteItemPath }: RepoLis
             tabIndex={0}
           >
             {item.type === 'dir' ? '📁 ' : '📄 '}
-            {item.name}
+            <div className={styles.itemNameText}>{item.name}</div>
             {item.type === 'file' && item.size && (
               <span className={styles.fileSize}>({(item.size / 1024).toFixed(1)} KB)</span>
             )}
           </div>
           {item.type === 'file' && (
             <div className={styles.actions}>
-              <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>Delete</DangerButton>
+              <DangerButton onClick={() => showConfirmDeleteModal(item.path)}>
+                <Image height={15.5} src={DUSTBIN_LOGO} alt="dustbin" />
+              </DangerButton>
             </div>
           )}
         </div>
