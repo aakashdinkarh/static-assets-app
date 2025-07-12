@@ -10,7 +10,7 @@ export const checkError = async (response: Response) => {
     removeFromLocalStorage(STORAGE_KEYS.USER_INFO);
 
     import('store/GithubUserInfoStore')
-      .then(module => module.useGithubUserInfoStore())
+      .then(module => module.useGithubUserInfoStore.getState())
       .then(({ setUserInfo }) => setUserInfo(null));
 
     throw new Error('User not logged in or session expired');
