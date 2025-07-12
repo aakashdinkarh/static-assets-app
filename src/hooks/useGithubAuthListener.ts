@@ -6,9 +6,11 @@ import { getFromLocalStorage, removeFromLocalStorage } from 'utils/storage.util'
 import { AUTHORIZATION_COOKIE_NAME } from 'utils/cookie.util';
 import { getCookie } from 'utils/cookie.util';
 import { pollGithubCode } from 'utils/githubLogin.util';
+import { useModalStore } from 'store/ModalStore';
 
 export const useGithubAuthListener = () => {
   const { setUserInfo, setUserLoginInProgress, userLoginInProgress } = useGithubUserInfoStore();
+  const { closeModal } = useModalStore();
 
   useEffect(() => {
     const cookie = getCookie(AUTHORIZATION_COOKIE_NAME);
@@ -39,8 +41,9 @@ export const useGithubAuthListener = () => {
       if (isSuccess) {
         fetchUserGithubInfo().then(() => {
           setUserLoginInProgress(false);
+          closeModal();
         });
       }
     });
-  }, [userLoginInProgress, setUserLoginInProgress, fetchUserGithubInfo]);
+  }, [userLoginInProgress, setUserLoginInProgress, fetchUserGithubInfo, closeModal]);
 };
