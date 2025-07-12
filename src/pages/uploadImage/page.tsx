@@ -1,5 +1,10 @@
 import { useState } from 'react';
+import { Image } from 'common/Image';
+import { SecondaryButton } from 'common/Button/Button';
 import { ImageUploader } from 'components/ImageUploader';
+import { GIT_BRANCH_LOGO } from 'constants/image.constant';
+import { githubCompareUrl } from 'constants/github';
+import { useRepoBrowserStore } from 'store/RepoBrowserStore';
 import type { GithubUploadResponse } from 'types/github';
 import styles from './page.module.css';
 
@@ -12,6 +17,12 @@ export function UploadPage() {
     type: null,
     message: '',
   });
+
+  const { branch } = useRepoBrowserStore();
+
+  const handleBranchNameClick = () => {
+    window.open(githubCompareUrl(branch!), '_blank');
+  };
 
   const handleSuccess = (response: GithubUploadResponse) => {
     setStatus({
@@ -30,8 +41,14 @@ export function UploadPage() {
 
   return (
     <>
-      <h1 className={styles.title}>Upload Images to GitHub</h1>
-      
+      <h2 className={styles.title}>
+        Upload Images to GitHub
+        <SecondaryButton className={styles.branchName} onClick={handleBranchNameClick}>
+          <Image src={GIT_BRANCH_LOGO} alt="git branch" />
+          {branch}
+        </SecondaryButton>
+      </h2>
+
       {status.type && (
         <div
           className={`${styles.statusMessage} ${
@@ -52,10 +69,7 @@ export function UploadPage() {
         </div>
       )}
 
-      <ImageUploader
-        onSuccess={handleSuccess}
-        onError={handleError}
-      />
+      <ImageUploader onSuccess={handleSuccess} onError={handleError} />
 
       <div className={styles.instructions}>
         <h2 className={styles.instructionsTitle}>Instructions:</h2>
@@ -68,4 +82,4 @@ export function UploadPage() {
       </div>
     </>
   );
-} 
+}

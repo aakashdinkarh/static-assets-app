@@ -5,6 +5,9 @@ import { Routes } from 'constants/route.constant';
 export const GITHUB_CONFIG = {
   CLIENT_ID: GITHUB_CLIENT_ID,
   REDIRECT_URI: CLIENT_URL + process.env.PUBLIC_URL! + Routes.loginCallback,
+  REPO_NAME: 'static_assets',
+  BASE_BRANCH: 'develop',
+  REPO_OWNER: 'aakashdinkarh',
 } as const;
 
 // Cache expiration time (2 minutes)
@@ -25,3 +28,6 @@ export const GITHUB_AUTH_URL =
   `client_id=${GITHUB_CONFIG.CLIENT_ID}` +
   '&scope=public_repo' +
   `&redirect_uri=${GITHUB_CONFIG.REDIRECT_URI}`;
+
+export const githubCompareUrl = (compareBranch: string) =>
+  `https://github.com/${GITHUB_CONFIG.REPO_OWNER}/${GITHUB_CONFIG.REPO_NAME}/compare/${GITHUB_CONFIG.BASE_BRANCH}...${compareBranch}`;
