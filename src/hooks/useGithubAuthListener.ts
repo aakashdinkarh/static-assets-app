@@ -1,16 +1,14 @@
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useCallback } from 'react';
 import { getUserGithubInfo } from 'api/githubUser';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 import { STORAGE_KEYS } from 'constants/storage.constant';
 import { getFromLocalStorage, removeFromLocalStorage } from 'utils/storage.util';
 import { AUTHORIZATION_COOKIE_NAME } from 'utils/cookie.util';
 import { getCookie } from 'utils/cookie.util';
+import { pollGithubCode } from 'utils/githubLogin.util';
 
 export const useGithubAuthListener = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const { setUserInfo } = useGithubUserInfoStore();
+  const { setUserInfo, setUserLoginInProgress, userLoginInProgress } = useGithubUserInfoStore();
 
   useEffect(() => {
     const cookie = getCookie(AUTHORIZATION_COOKIE_NAME);
@@ -23,16 +21,26 @@ export const useGithubAuthListener = () => {
     } else {
       removeFromLocalStorage(STORAGE_KEYS.USER_INFO);
     }
+  }, [setUserInfo]);
 
-    const allParams = Object.fromEntries(searchParams.entries());
-    const { code, ...restParams } = allParams;
+  const fetchUserGithubInfo = useCallback(async () => {
+    const githubCode = getFromLocalStorage(STORAGE_KEYS.GITHUB_CODE);
+    if (!githubCode) return;
 
-    if (code) {
-      (async () => {
-        const userInfo = await getUserGithubInfo(code);
-        setUserInfo(userInfo);
-      })();
-    }
-    setSearchParams(restParams);
-  }, [searchParams, setSearchParams, setUserInfo]);
+    const userInfo = await getUserGithubInfo(githubCode);
+    setUserInfo(userInfo);
+    removeFromLocalStorage(STORAGE_KEYS.GITHUB_CODE);
+  }, [setUserInfo]);
+
+  useEffect(() => {
+    if (!userLoginInProgress) return;
+
+    pollGithubCode().then(isSuccess => {
+      if (isSuccess) {
+        fetchUserGithubInfo().then(() => {
+          setUserLoginInProgress(false);
+        });
+      }
+    });
+  }, [userLoginInProgress, setUserLoginInProgress, fetchUserGithubInfo]);
 };

@@ -13,6 +13,12 @@ export const CACHE_EXPIRATION = 2 * 60 * 1000;
 // In-memory cache object
 export const cache: { [key: string]: CacheEntry } = {};
 
+export const GITHUB_CODE_POLLING_INTERVAL = 500;
+export const githubCodeCheckIntervalData: {
+  intervalId: NodeJS.Timeout | undefined;
+} = {
+  intervalId: undefined,
+};
 
 export const GITHUB_AUTH_URL =
   'https://github.com/login/oauth/authorize?' +
