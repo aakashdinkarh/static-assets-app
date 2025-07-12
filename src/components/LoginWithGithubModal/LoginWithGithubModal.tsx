@@ -16,6 +16,7 @@ export const LoginWithGithubModal = () => {
   );
 
   const primaryActionHandler = () => {
+    window.open(GITHUB_AUTH_URL, '_blank');
     window.location.href = GITHUB_AUTH_URL;
   };
 

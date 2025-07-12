@@ -10,6 +10,9 @@ const UploadPage = lazy(() =>
 const RepoBrowser = lazy(() =>
   import('./RepoBrowser/RepoBrowser').then(module => ({ default: module.RepoBrowser }))
 );
+const LoginCallback = lazy(() =>
+  import('./LoginCallback/page').then(module => ({ default: module.LoginCallback }))
+);
 
 export const nestedRoutes: RouteObject[] = [
   {
@@ -36,6 +39,10 @@ export const router = createBrowserRouter(
         </Layout>
       ),
       children: nestedRoutes,
+    },
+    {
+      path: Routes.loginCallback,
+      element: <LoginCallback />,
     },
   ],
   {
