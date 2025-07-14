@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static-assets-app/static/css/main.117872ed.css",
-    "main.js": "/static-assets-app/static/js/main.061fffca.js",
-    "static/css/816.db8a1a79.chunk.css": "/static-assets-app/static/css/816.db8a1a79.chunk.css",
-    "static/js/816.bda87cfc.chunk.js": "/static-assets-app/static/js/816.bda87cfc.chunk.js",
-    "static/css/698.6c829e4a.chunk.css": "/static-assets-app/static/css/698.6c829e4a.chunk.css",
-    "static/js/698.716bf391.chunk.js": "/static-assets-app/static/js/698.716bf391.chunk.js",
-    "static/css/960.846aca4c.chunk.css": "/static-assets-app/static/css/960.846aca4c.chunk.css",
-    "static/js/960.b8917609.chunk.js": "/static-assets-app/static/js/960.b8917609.chunk.js",
-    "static/js/403.7656516b.chunk.js": "/static-assets-app/static/js/403.7656516b.chunk.js",
-    "static/css/594.f43371a5.chunk.css": "/static-assets-app/static/css/594.f43371a5.chunk.css",
-    "static/js/594.20de2875.chunk.js": "/static-assets-app/static/js/594.20de2875.chunk.js",
-    "index.html": "/static-assets-app/index.html"
+    "main.css": "/web-repo-editor/static/css/main.117872ed.css",
+    "main.js": "/web-repo-editor/static/js/main.c15f611e.js",
+    "static/css/816.026af096.chunk.css": "/web-repo-editor/static/css/816.026af096.chunk.css",
+    "static/js/816.0aaf857f.chunk.js": "/web-repo-editor/static/js/816.0aaf857f.chunk.js",
+    "static/css/698.6c829e4a.chunk.css": "/web-repo-editor/static/css/698.6c829e4a.chunk.css",
+    "static/js/698.874072b5.chunk.js": "/web-repo-editor/static/js/698.874072b5.chunk.js",
+    "static/css/960.846aca4c.chunk.css": "/web-repo-editor/static/css/960.846aca4c.chunk.css",
+    "static/js/960.8fc067ed.chunk.js": "/web-repo-editor/static/js/960.8fc067ed.chunk.js",
+    "static/js/403.b80802d4.chunk.js": "/web-repo-editor/static/js/403.b80802d4.chunk.js",
+    "static/css/594.f43371a5.chunk.css": "/web-repo-editor/static/css/594.f43371a5.chunk.css",
+    "static/js/594.68dd83b0.chunk.js": "/web-repo-editor/static/js/594.68dd83b0.chunk.js",
+    "index.html": "/web-repo-editor/index.html"
   },
   "entrypoints": [
     "static/css/main.117872ed.css",
-    "static/js/main.061fffca.js"
+    "static/js/main.c15f611e.js"
   ]
 }
