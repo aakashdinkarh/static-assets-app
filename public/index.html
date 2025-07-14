@@ -4,15 +4,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta name="theme-color" content="#000000" />
-  <meta http-equiv="Content-Language" content="en" />
+	<meta name="theme-color" content="#ffffff" />
+	<meta http-equiv="Content-Language" content="en" />
 
-  <title>Static Assets App</title>
+	<meta name="author" content="Aakash Dinkar" />
+	<meta name="description" content="A web application that allows users to browse the contents of a GitHub repository, upload and update files directly from the UI, and commit changes to the repository - all through an intuitive interface." />
+	<meta name="keywords" content="Web Repo Editor, GitHub, Repository, Upload, Update, Commit, Interface, Aakash Dinkar, web-repo-editor, web-repo-editor-app, web-repo-editor-github, web-repo-editor-github-app, web-repo-editor-github-repository, web-repo-editor-github-repository-app, web-repo-editor-github-repository-upload, web-repo-editor-github-repository-update, web-repo-editor-github-repository-commit, static-assets-app, static-assets-app-github, static-assets-app-github-app, static-assets-app-github-repository, static-assets-app-github-repository-app, static-assets-app-github-repository-upload, static-assets-app-github-repository-update, static-assets-app-github-repository-commit" />
+
+	<!-- Favicon for all browsers (SVG, scalable) -->
+	<link rel="icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/web-repo-editor.svg" type="image/svg+xml">
+	<!-- Apple Touch Icon (optional, SVG support is limited on iOS, but for consistency) -->
+	<link rel="apple-touch-icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/web-repo-editor.svg">
+	<!-- Safari Pinned Tab -->
+	<link rel="mask-icon" href="https://aakashdinkarh.github.io/static_assets/images/svgs/web-repo-editor.svg">
+	
+	<meta name="baseCDNUrl" content="https://aakashdinkarh.github.io/static_assets">
+
+	<meta property="og:title" content="Web Repo Editor" />
+	<meta property="og:description" content="A web application that allows users to browse the contents of a GitHub repository, upload and update files directly from the UI, and commit changes to the repository - all through an intuitive interface." />
+	<meta property="og:url" content="https://aakashdinkar.in/web-repo-editor/" />
+	<meta property="og:image" content="https://aakashdinkarh.github.io/static_assets/images/svgs/web-repo-editor.svg" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Web Repo Editor">
+
+	<meta name="twitter:title" content="Web Repo Editor" />
+	<meta name="twitter:description" content="A web application that allows users to browse the contents of a GitHub repository, upload and update files directly from the UI, and commit changes to the repository - all through an intuitive interface." />
+	<meta name="twitter:image" content="https://aakashdinkarh.github.io/static_assets/images/svgs/web-repo-editor.svg" />
+
+  <title>Web Repo Editor</title>
   <script>
     if (!['localhost', '127.0.0.1', 'aakashdinkar.in'].includes(window.location.hostname)) {
       window.location.href = window.location.protocol + '//' + 'aakashdinkar.in' + window.location.pathname + window.location.search;
     }
   </script>
+  	<!-- google crawling -->
+	<meta name="google-site-verification" content="DCYDep9j5s7cyTxOdQrS3FYiHIfOwh1Laa-tgcAdxR8" />
+	<script>
+		// Check if the current URL is the live website
+		if (window.location.hostname === 'aakashdinkar.in') {
+		  // Google tag (gtag.js)
+		  const script = document.createElement("script");
+		  script.src = "https://www.googletagmanager.com/gtag/js?id=G-B7Q8NCFNR6";
+		  script.async = true;
+		  document.head.appendChild(script);
+  
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag() {
+			dataLayer.push(arguments);
+		  }
+		  gtag("js", new Date());
+		  gtag("config", "G-B7Q8NCFNR6");
+		}
+	</script>
   <!-- Start Single Page Apps for GitHub Pages (copy pasted from github to resolve refresh issue with react app) -->
   <script type="text/javascript">
     // Single Page Apps for GitHub Pages

@@ -41,8 +41,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 1. Clone the repo
 
    ```bash
-   git clone https://github.com/aakashdinkarh/static-assets-app.git
-   cd static-assets-app
+   git clone https://github.com/aakashdinkarh/web-repo-editor.git
+   cd web-repo-editor
    ```
 
 2. Install dependencies
@@ -109,7 +109,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 ## Project Structure
 
 ```
-static-assets-app/
+web-repo-editor/
 ├── src/
 │   ├── __tests__/      # Test files
 │   ├── components/     # React components

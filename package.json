@@ -1,9 +1,9 @@
 {
-  "name": "static-assets-app",
+  "name": "web-repo-editor",
   "version": "0.1.0",
-  "description": "A browser-based JavaScript/TypeScript playground with real-time code execution, TypeScript support, and Chrome DevTools-like console for experimenting with code. Features include live transpilation, detailed error handling, rich data type formatting, and offline capabilities.",
+  "description": "A web application that allows users to browse the contents of a GitHub repository, upload and update files directly from the UI, and commit changes to the repository - all through an intuitive interface.",
   "private": true,
-  "homepage": "https://aakashdinkarh.github.io/static-assets-app",
+  "homepage": "https://aakashdinkarh.github.io/web-repo-editor",
   "dependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0",

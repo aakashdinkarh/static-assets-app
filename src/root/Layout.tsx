@@ -7,7 +7,7 @@ import { useGithubBranchListener } from 'hooks/useGithubBranchListener';
 import { useGithubUserInfoStore } from 'store/GithubUserInfoStore';
 import { LogoutPopup } from 'components/LogoutPopup';
 import { useLogoutPopupStore } from 'store/LogoutPopupStore';
-import { GITHUB_LOGO, STATIC_ASSETS_APP_LOGO } from 'constants/image.constant';
+import { GITHUB_LOGO, WEB_REPO_EDITOR_LOGO } from 'constants/image.constant';
 import { Image } from 'common/Image';
 import { mergeClasses } from 'utils/mergeClasses';
 import { ButtonLink } from 'common/Button/Button';
@@ -29,11 +29,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <NavLink to={Routes.home} className={styles.logo}>
             <Image
               className={styles.logoImage}
-              src={STATIC_ASSETS_APP_LOGO}
-              alt="Static Assets App Logo"
+              src={WEB_REPO_EDITOR_LOGO}
+              alt="Web Repo Editor Logo"
               width={26}
             />
-            <span className={styles.logoText}>Static Assets</span>
+            <span className={styles.logoText}>Web Repo Editor</span>
           </NavLink>
 
           {/* Navigation Links */}
